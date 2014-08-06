@@ -30,11 +30,18 @@ typedef signed   short int16_t;
 typedef unsigned short uint16_t;
 typedef signed   int int32_t;
 typedef unsigned int uint32_t;
-typedef unsigned long long int uint64_t;
-typedef long long int int64_t;
+#if defined(_MSC_VER) && (_MSC_VER<=1200)
+  typedef unsigned __int64 uint64_t;
+  typedef __int64 int64_t;
+#else
+  typedef unsigned long long int uint64_t;
+  typedef long long int int64_t;
+#endif
+
 #define WEBP_INLINE __forceinline
 #endif  /* _MSC_VER */
 
+/* This part added for GraphicsMagick */
 #if defined(_MT) && defined(_DLL) && !defined(_WEBPDLL_) && !defined(_LIB)
 #   define _WEBPDLL_
 #endif
@@ -50,6 +57,7 @@ typedef long long int int64_t;
 #       pragma message( "libwebp compiling as DLL export" )
 #   endif
 #endif
+/* End of GraphicsMagick part. */
 
 
 #ifndef WEBP_EXTERN
