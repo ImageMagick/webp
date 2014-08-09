@@ -49,7 +49,7 @@ typedef unsigned int uint32_t;
 #   if defined(_VISUALC_)
 #       pragma warning( disable : 4273 )
 #   endif
-#   if !defined(_WEBPLIB_)
+#   if !defined(_MAGICKMOD_)
 #       define WEBP_EXTERN(type) extern __declspec(dllimport) type
 #       pragma message( "libwebp compiling as DLL import" )
 #   else
