@@ -11,8 +11,7 @@
 //
 // Author: Skal (pascal.massimino@gmail.com)
 
-#include "./vp8i.h"
-#include "../utils/bit_reader_inl.h"
+#include "vp8i.h"
 
 #define USE_GENERIC_TREE
 
@@ -279,23 +278,10 @@ void VP8ResetProba(VP8Proba* const proba) {
   // proba->bands_[][] is initialized later
 }
 
-static void ParseIntraMode(VP8BitReader* const br,
-                           VP8Decoder* const dec, int mb_x) {
-  uint8_t* const top = dec->intra_t_ + 4 * mb_x;
+void VP8ParseIntraMode(VP8BitReader* const br, VP8Decoder* const dec) {
+  uint8_t* const top = dec->intra_t_ + 4 * dec->mb_x_;
   uint8_t* const left = dec->intra_l_;
-  VP8MBData* const block = dec->mb_data_ + mb_x;
-
-  // Note: we don't save segment map (yet), as we don't expect
-  // to decode more than 1 keyframe.
-  if (dec->segment_hdr_.update_map_) {
-    // Hardcoded tree parsing
-    block->segment_ = !VP8GetBit(br, dec->proba_.segments_[0])
-                    ? VP8GetBit(br, dec->proba_.segments_[1])
-                    : 2 + VP8GetBit(br, dec->proba_.segments_[2]);
-  } else {
-    block->segment_ = 0;  // default for intra
-  }
-  if (dec->use_skip_proba_) block->skip_ = VP8GetBit(br, dec->skip_p_);
+  VP8MBData* const block = dec->mb_data_ + dec->mb_x_;
 
   block->is_i4x4_ = !VP8GetBit(br, 145);   // decide for B_PRED first
   if (!block->is_i4x4_) {
@@ -344,14 +330,6 @@ static void ParseIntraMode(VP8BitReader* const br,
   block->uvmode_ = !VP8GetBit(br, 142) ? DC_PRED
                  : !VP8GetBit(br, 114) ? V_PRED
                  : VP8GetBit(br, 183) ? TM_PRED : H_PRED;
-}
-
-int VP8ParseIntraModeRow(VP8BitReader* const br, VP8Decoder* const dec) {
-  int mb_x;
-  for (mb_x = 0; mb_x < dec->mb_w_; ++mb_x) {
-    ParseIntraMode(br, dec, mb_x);
-  }
-  return !dec->br_.eof_;
 }
 
 //------------------------------------------------------------------------------

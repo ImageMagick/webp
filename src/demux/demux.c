@@ -11,7 +11,7 @@
 //
 
 #ifdef HAVE_CONFIG_H
-#include "../webp/config.h"
+#include "config.h"
 #endif
 
 #include <assert.h>
@@ -25,7 +25,7 @@
 
 #define DMUX_MAJ_VERSION 0
 #define DMUX_MIN_VERSION 2
-#define DMUX_REV_VERSION 2
+#define DMUX_REV_VERSION 0
 
 typedef struct {
   size_t start_;        // start location of the data
@@ -289,7 +289,7 @@ static ParseStatus NewFrame(const MemBuffer* const mem,
   if (actual_size < min_size) return PARSE_ERROR;
   if (MemDataSize(mem) < min_size)  return PARSE_NEED_MORE_DATA;
 
-  *frame = (Frame*)WebPSafeCalloc(1ULL, sizeof(**frame));
+  *frame = (Frame*)calloc(1, sizeof(**frame));
   return (*frame == NULL) ? PARSE_ERROR : PARSE_OK;
 }
 
@@ -317,7 +317,7 @@ static ParseStatus ParseAnimationFrame(
       (bits & 1) ? WEBP_MUX_DISPOSE_BACKGROUND : WEBP_MUX_DISPOSE_NONE;
   frame->blend_method_ = (bits & 2) ? WEBP_MUX_NO_BLEND : WEBP_MUX_BLEND;
   if (frame->width_ * (uint64_t)frame->height_ >= MAX_IMAGE_AREA) {
-    WebPSafeFree(frame);
+    free(frame);
     return PARSE_ERROR;
   }
 
@@ -333,7 +333,7 @@ static ParseStatus ParseAnimationFrame(
     }
   }
 
-  if (!added_frame) WebPSafeFree(frame);
+  if (!added_frame) free(frame);
   return status;
 }
 
@@ -368,7 +368,7 @@ static ParseStatus ParseFragment(WebPDemuxer* const dmux,
     }
   }
 
-  if (!added_fragment) WebPSafeFree(frame);
+  if (!added_fragment) free(frame);
   return status;
 }
 #endif  // WEBP_EXPERIMENTAL_FEATURES
@@ -379,7 +379,7 @@ static ParseStatus ParseFragment(WebPDemuxer* const dmux,
 // Returns true on success, false otherwise.
 static int StoreChunk(WebPDemuxer* const dmux,
                       size_t start_offset, uint32_t size) {
-  Chunk* const chunk = (Chunk*)WebPSafeCalloc(1ULL, sizeof(*chunk));
+  Chunk* const chunk = (Chunk*)calloc(1, sizeof(*chunk));
   if (chunk == NULL) return 0;
 
   chunk->data_.offset_ = start_offset;
@@ -427,7 +427,7 @@ static ParseStatus ParseSingleImage(WebPDemuxer* const dmux) {
   if (SizeIsInvalid(mem, min_size)) return PARSE_ERROR;
   if (MemDataSize(mem) < min_size) return PARSE_NEED_MORE_DATA;
 
-  frame = (Frame*)WebPSafeCalloc(1ULL, sizeof(*frame));
+  frame = (Frame*)calloc(1, sizeof(*frame));
   if (frame == NULL) return PARSE_ERROR;
 
   // For the single image case we allow parsing of a partial frame, but we need
@@ -458,7 +458,7 @@ static ParseStatus ParseSingleImage(WebPDemuxer* const dmux) {
     }
   }
 
-  if (!image_added) WebPSafeFree(frame);
+  if (!image_added) free(frame);
   return status;
 }
 
@@ -729,7 +729,7 @@ WebPDemuxer* WebPDemuxInternal(const WebPData* data, int allow_partial,
   partial = (mem.buf_size_ < mem.riff_end_);
   if (!allow_partial && partial) return NULL;
 
-  dmux = (WebPDemuxer*)WebPSafeCalloc(1ULL, sizeof(*dmux));
+  dmux = (WebPDemuxer*)calloc(1, sizeof(*dmux));
   if (dmux == NULL) return NULL;
   InitDemux(dmux, &mem);
 
@@ -761,14 +761,14 @@ void WebPDemuxDelete(WebPDemuxer* dmux) {
   for (f = dmux->frames_; f != NULL;) {
     Frame* const cur_frame = f;
     f = f->next_;
-    WebPSafeFree(cur_frame);
+    free(cur_frame);
   }
   for (c = dmux->chunks_; c != NULL;) {
     Chunk* const cur_chunk = c;
     c = c->next_;
-    WebPSafeFree(cur_chunk);
+    free(cur_chunk);
   }
-  WebPSafeFree(dmux);
+  free(dmux);
 }
 
 // -----------------------------------------------------------------------------

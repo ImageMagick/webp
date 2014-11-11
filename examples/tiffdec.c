@@ -12,7 +12,7 @@
 #include "./tiffdec.h"
 
 #ifdef HAVE_CONFIG_H
-#include "webp/config.h"
+#include "config.h"
 #endif
 
 #include <stdio.h>
@@ -97,7 +97,7 @@ int ReadTIFF(const char* const filename,
       pic->width = width;
       pic->height = height;
       // TIFF data is ABGR
-#ifdef WORDS_BIGENDIAN
+#ifdef __BIG_ENDIAN__
       TIFFSwabArrayOfLong(raster, width * height);
 #endif
       pic->use_argb = 1;

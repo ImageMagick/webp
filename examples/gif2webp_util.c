@@ -166,10 +166,10 @@ static int IsKeyFrame(const WebPPicture* const curr,
 
   // If previous canvas (with previous frame disposed) is all transparent,
   // current frame is a key frame.
-  for (j = 0; j < prev->height; ++j) {
-    const uint32_t* const row = &prev->argb[j * prev->argb_stride];
-    for (i = 0; i < prev->width; ++i) {
-      if (row[i] & 0xff000000u) {   // has alpha?
+  for (i = 0; i < prev->width; ++i) {
+    for (j = 0; j < prev->height; ++j) {
+      const uint32_t prev_alpha = (prev->argb[j * prev->argb_stride + i]) >> 24;
+      if (prev_alpha != 0) {
         is_key_frame = 0;
         break;
       }
@@ -415,15 +415,11 @@ static int GetColorCount(const WebPPicture* const pic) {
 #undef HASH_SIZE
 #undef HASH_RIGHT_SHIFT
 
-static WebPEncodingError SetFrame(const WebPConfig* const config,
-                                  int allow_mixed, int is_key_frame,
-                                  const WebPPicture* const prev_canvas,
-                                  WebPPicture* const frame,
-                                  const WebPFrameRect* const rect,
-                                  const WebPMuxFrameInfo* const info,
-                                  WebPPicture* const sub_frame,
-                                  EncodedFrame* encoded_frame) {
-  WebPEncodingError error_code = VP8_ENC_OK;
+static int SetFrame(const WebPConfig* const config, int allow_mixed,
+                    int is_key_frame, const WebPPicture* const prev_canvas,
+                    WebPPicture* const frame, const WebPFrameRect* const rect,
+                    const WebPMuxFrameInfo* const info,
+                    WebPPicture* const sub_frame, EncodedFrame* encoded_frame) {
   int try_lossless;
   int try_lossy;
   int try_both;
@@ -450,7 +446,6 @@ static WebPEncodingError SetFrame(const WebPConfig* const config,
     WebPConfig config_ll = *config;
     config_ll.lossless = 1;
     if (!EncodeFrame(&config_ll, sub_frame, &mem1)) {
-      error_code = sub_frame->error_code;
       goto Err;
     }
   }
@@ -466,7 +461,6 @@ static WebPEncodingError SetFrame(const WebPConfig* const config,
       FlattenSimilarBlocks(prev_canvas, rect, frame);
     }
     if (!EncodeFrame(&config_lossy, sub_frame, &mem2)) {
-      error_code = sub_frame->error_code;
       goto Err;
     }
   }
@@ -475,36 +469,21 @@ static WebPEncodingError SetFrame(const WebPConfig* const config,
     // TODO(later): Perhaps a rough SSIM/PSNR produced by the encoder should
     // also be a criteria, in addition to sizes.
     if (mem1.size <= mem2.size) {
-#if WEBP_ENCODER_ABI_VERSION > 0x0203
-      WebPMemoryWriterClear(&mem2);
-#else
       free(mem2.mem);
-      memset(&mem2, 0, sizeof(mem2));
-#endif
       GetEncodedData(&mem1, encoded_data);
     } else {
-#if WEBP_ENCODER_ABI_VERSION > 0x0203
-      WebPMemoryWriterClear(&mem1);
-#else
       free(mem1.mem);
-      memset(&mem1, 0, sizeof(mem1));
-#endif
       GetEncodedData(&mem2, encoded_data);
     }
   } else {
     GetEncodedData(try_lossless ? &mem1 : &mem2, encoded_data);
   }
-  return error_code;
+  return 1;
 
  Err:
-#if WEBP_ENCODER_ABI_VERSION > 0x0203
-  WebPMemoryWriterClear(&mem1);
-  WebPMemoryWriterClear(&mem2);
-#else
   free(mem1.mem);
   free(mem2.mem);
-#endif
-  return error_code;
+  return 0;
 }
 
 #undef MIN_COLORS_LOSSY
@@ -535,35 +514,19 @@ static void DisposeFrame(WebPMuxAnimDispose dispose_method,
 
 int WebPFrameCacheAddFrame(WebPFrameCache* const cache,
                            const WebPConfig* const config,
-                           const WebPFrameRect* const orig_rect_ptr,
+                           const WebPFrameRect* const orig_rect,
                            WebPPicture* const frame,
                            WebPMuxFrameInfo* const info) {
   int ok = 0;
-  WebPEncodingError error_code = VP8_ENC_OK;
-  WebPFrameRect rect;
+  WebPFrameRect rect = *orig_rect;
   WebPPicture sub_image;  // View extracted from 'frame' with rectangle 'rect'.
   WebPPicture* const prev_canvas = &cache->prev_canvas;
   const size_t position = cache->count;
   const int allow_mixed = cache->allow_mixed;
   EncodedFrame* const encoded_frame = CacheGetFrame(cache, position);
-  WebPFrameRect orig_rect;
   assert(position < cache->size);
 
-  if (frame == NULL || info == NULL) {
-    return 0;
-  }
-
-  if (orig_rect_ptr == NULL) {
-    orig_rect.width = frame->width;
-    orig_rect.height = frame->height;
-    orig_rect.x_offset = 0;
-    orig_rect.y_offset = 0;
-  } else {
-    orig_rect = *orig_rect_ptr;
-  }
-
   // Snap to even offsets (and adjust dimensions if needed).
-  rect = orig_rect;
   rect.width += (rect.x_offset & 1);
   rect.height += (rect.y_offset & 1);
   rect.x_offset &= ~1;
@@ -580,9 +543,8 @@ int WebPFrameCacheAddFrame(WebPFrameCache* const cache,
 
   if (cache->is_first_frame || IsKeyFrame(frame, &rect, prev_canvas)) {
     // Add this as a key frame.
-    error_code = SetFrame(config, allow_mixed, 1, NULL, NULL, NULL,
-                          info, &sub_image, encoded_frame);
-    if (error_code != VP8_ENC_OK) {
+    if (!SetFrame(config, allow_mixed, 1, NULL, NULL, NULL, info, &sub_image,
+                  encoded_frame)) {
       goto End;
     }
     cache->keyframe = position;
@@ -594,23 +556,22 @@ int WebPFrameCacheAddFrame(WebPFrameCache* const cache,
     ++cache->count_since_key_frame;
     if (cache->count_since_key_frame <= cache->kmin) {
       // Add this as a frame rectangle.
-      error_code = SetFrame(config, allow_mixed, 0, prev_canvas, frame,
-                            &rect, info, &sub_image, encoded_frame);
-      if (error_code != VP8_ENC_OK) {
+      if (!SetFrame(config, allow_mixed, 0, prev_canvas, frame, &rect, info,
+                    &sub_image, encoded_frame)) {
         goto End;
       }
       cache->flush_count = cache->count;
       // Update prev_canvas by blending 'curr' into it.
-      BlendPixels(frame, &orig_rect, prev_canvas);
+      BlendPixels(frame, orig_rect, prev_canvas);
     } else {
       WebPPicture full_image;
       WebPMuxFrameInfo full_image_info;
+      int frame_added;
       int64_t curr_delta;
 
       // Add frame rectangle to cache.
-      error_code = SetFrame(config, allow_mixed, 0, prev_canvas, frame, &rect,
-                            info, &sub_image, encoded_frame);
-      if (error_code != VP8_ENC_OK) {
+      if (!SetFrame(config, allow_mixed, 0, prev_canvas, frame, &rect, info,
+                    &sub_image, encoded_frame)) {
         goto End;
       }
 
@@ -626,10 +587,10 @@ int WebPFrameCacheAddFrame(WebPFrameCache* const cache,
       full_image_info.y_offset = rect.y_offset;
 
       // Add key frame to cache, too.
-      error_code = SetFrame(config, allow_mixed, 1, NULL, NULL, NULL,
-                            &full_image_info, &full_image, encoded_frame);
+      frame_added = SetFrame(config, allow_mixed, 1, NULL, NULL, NULL,
+                             &full_image_info, &full_image, encoded_frame);
       WebPPictureFree(&full_image);
-      if (error_code != VP8_ENC_OK) goto End;
+      if (!frame_added) goto End;
 
       // Analyze size difference of the two variants.
       curr_delta = KeyFramePenalty(encoded_frame);
@@ -648,7 +609,7 @@ int WebPFrameCacheAddFrame(WebPFrameCache* const cache,
     }
   }
 
-  DisposeFrame(info->dispose_method, &orig_rect, frame, prev_canvas);
+  DisposeFrame(info->dispose_method, orig_rect, frame, prev_canvas);
 
   cache->is_first_frame = 0;
   ok = 1;
@@ -659,8 +620,6 @@ int WebPFrameCacheAddFrame(WebPFrameCache* const cache,
     FrameRelease(encoded_frame);
     --cache->count;  // We reset the count, as the frame addition failed.
   }
-  frame->error_code = error_code;   // report error_code
-  assert(ok || error_code != VP8_ENC_OK);
   return ok;
 }
 

@@ -22,9 +22,6 @@
 // (might be faster on some platform)
 // #define USE_LUT_REVERSE_BITS
 
-// Huffman data read via DecodeImageStream is represented in two (red and green)
-// bytes.
-#define MAX_HTREE_GROUPS    0x10000
 #define NON_EXISTENT_SYMBOL (-1)
 
 static void TreeNodeInit(HuffmanTreeNode* const node) {
@@ -49,25 +46,17 @@ static void AssignChildren(HuffmanTree* const tree,
   TreeNodeInit(children + 1);
 }
 
-// A Huffman tree is a full binary tree; and in a full binary tree with L
-// leaves, the total number of nodes N = 2 * L - 1.
-static int HuffmanTreeMaxNodes(int num_leaves) {
-  return (2 * num_leaves - 1);
-}
-
-static int HuffmanTreeAllocate(HuffmanTree* const tree, int num_nodes) {
-  assert(tree != NULL);
-  tree->root_ =
-      (HuffmanTreeNode*)WebPSafeMalloc(num_nodes, sizeof(*tree->root_));
-  return (tree->root_ != NULL);
-}
-
 static int TreeInit(HuffmanTree* const tree, int num_leaves) {
   assert(tree != NULL);
   if (num_leaves == 0) return 0;
-  tree->max_nodes_ = HuffmanTreeMaxNodes(num_leaves);
+  // We allocate maximum possible nodes in the tree at once.
+  // Note that a Huffman tree is a full binary tree; and in a full binary tree
+  // with L leaves, the total number of nodes N = 2 * L - 1.
+  tree->max_nodes_ = 2 * num_leaves - 1;
   assert(tree->max_nodes_ < (1 << 16));   // limit for the lut_jump_ table
-  if (!HuffmanTreeAllocate(tree, tree->max_nodes_)) return 0;
+  tree->root_ = (HuffmanTreeNode*)WebPSafeMalloc((uint64_t)tree->max_nodes_,
+                                                 sizeof(*tree->root_));
+  if (tree->root_ == NULL) return 0;
   TreeNodeInit(tree->root_);  // Initialize root.
   tree->num_nodes_ = 1;
   memset(tree->lut_bits_, 255, sizeof(tree->lut_bits_));
@@ -75,41 +64,17 @@ static int TreeInit(HuffmanTree* const tree, int num_leaves) {
   return 1;
 }
 
-void VP8LHuffmanTreeFree(HuffmanTree* const tree) {
+void HuffmanTreeRelease(HuffmanTree* const tree) {
   if (tree != NULL) {
-    WebPSafeFree(tree->root_);
+    free(tree->root_);
     tree->root_ = NULL;
     tree->max_nodes_ = 0;
     tree->num_nodes_ = 0;
   }
 }
 
-HTreeGroup* VP8LHtreeGroupsNew(int num_htree_groups) {
-  HTreeGroup* const htree_groups =
-      (HTreeGroup*)WebPSafeCalloc(num_htree_groups, sizeof(*htree_groups));
-  assert(num_htree_groups <= MAX_HTREE_GROUPS);
-  if (htree_groups == NULL) {
-    return NULL;
-  }
-  return htree_groups;
-}
-
-void VP8LHtreeGroupsFree(HTreeGroup* htree_groups, int num_htree_groups) {
-  if (htree_groups != NULL) {
-    int i, j;
-    for (i = 0; i < num_htree_groups; ++i) {
-      HuffmanTree* const htrees = htree_groups[i].htrees_;
-      for (j = 0; j < HUFFMAN_CODES_PER_META_CODE; ++j) {
-        VP8LHuffmanTreeFree(&htrees[j]);
-      }
-    }
-    WebPSafeFree(htree_groups);
-  }
-}
-
-int VP8LHuffmanCodeLengthsToCodes(
-    const int* const code_lengths, int code_lengths_size,
-    int* const huff_codes) {
+int HuffmanCodeLengthsToCodes(const int* const code_lengths,
+                              int code_lengths_size, int* const huff_codes) {
   int symbol;
   int code_len;
   int code_length_hist[MAX_ALLOWED_CODE_LENGTH + 1] = { 0 };
@@ -228,10 +193,9 @@ static int TreeAddSymbol(HuffmanTree* const tree,
   return 1;
 }
 
-int VP8LHuffmanTreeBuildImplicit(HuffmanTree* const tree,
-                                 const int* const code_lengths,
-                                 int* const codes,
-                                 int code_lengths_size) {
+int HuffmanTreeBuildImplicit(HuffmanTree* const tree,
+                             const int* const code_lengths,
+                             int code_lengths_size) {
   int symbol;
   int num_symbols = 0;
   int root_symbol = 0;
@@ -255,43 +219,47 @@ int VP8LHuffmanTreeBuildImplicit(HuffmanTree* const tree,
   if (num_symbols == 1) {  // Trivial case.
     const int max_symbol = code_lengths_size;
     if (root_symbol < 0 || root_symbol >= max_symbol) {
-      VP8LHuffmanTreeFree(tree);
+      HuffmanTreeRelease(tree);
       return 0;
     }
     return TreeAddSymbol(tree, root_symbol, 0, 0);
   } else {  // Normal case.
     int ok = 0;
-    memset(codes, 0, code_lengths_size * sizeof(*codes));
 
-    if (!VP8LHuffmanCodeLengthsToCodes(code_lengths, code_lengths_size,
-                                       codes)) {
+    // Get Huffman codes from the code lengths.
+    int* const codes =
+        (int*)WebPSafeMalloc((uint64_t)code_lengths_size, sizeof(*codes));
+    if (codes == NULL) goto End;
+
+    if (!HuffmanCodeLengthsToCodes(code_lengths, code_lengths_size, codes)) {
       goto End;
     }
 
     // Add symbols one-by-one.
     for (symbol = 0; symbol < code_lengths_size; ++symbol) {
       if (code_lengths[symbol] > 0) {
-        if (!TreeAddSymbol(tree, symbol, codes[symbol],
-                           code_lengths[symbol])) {
+        if (!TreeAddSymbol(tree, symbol, codes[symbol], code_lengths[symbol])) {
           goto End;
         }
       }
     }
     ok = 1;
  End:
+    free(codes);
     ok = ok && IsFull(tree);
-    if (!ok) VP8LHuffmanTreeFree(tree);
+    if (!ok) HuffmanTreeRelease(tree);
     return ok;
   }
 }
 
-int VP8LHuffmanTreeBuildExplicit(HuffmanTree* const tree,
-                                 const int* const code_lengths,
-                                 const int* const codes,
-                                 const int* const symbols, int max_symbol,
-                                 int num_symbols) {
+int HuffmanTreeBuildExplicit(HuffmanTree* const tree,
+                             const int* const code_lengths,
+                             const int* const codes,
+                             const int* const symbols, int max_symbol,
+                             int num_symbols) {
   int ok = 0;
   int i;
+
   assert(tree != NULL);
   assert(code_lengths != NULL);
   assert(codes != NULL);
@@ -314,6 +282,7 @@ int VP8LHuffmanTreeBuildExplicit(HuffmanTree* const tree,
   ok = 1;
  End:
   ok = ok && IsFull(tree);
-  if (!ok) VP8LHuffmanTreeFree(tree);
+  if (!ok) HuffmanTreeRelease(tree);
   return ok;
 }
+

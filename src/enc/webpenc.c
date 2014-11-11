@@ -18,7 +18,6 @@
 
 #include "./vp8enci.h"
 #include "./vp8li.h"
-#include "./cost.h"
 #include "../utils/utils.h"
 
 // #define PRINT_MEMORY_INFO
@@ -31,6 +30,31 @@
 
 int WebPGetEncoderVersion(void) {
   return (ENC_MAJ_VERSION << 16) | (ENC_MIN_VERSION << 8) | ENC_REV_VERSION;
+}
+
+//------------------------------------------------------------------------------
+// WebPPicture
+//------------------------------------------------------------------------------
+
+static int DummyWriter(const uint8_t* data, size_t data_size,
+                       const WebPPicture* const picture) {
+  // The following are to prevent 'unused variable' error message.
+  (void)data;
+  (void)data_size;
+  (void)picture;
+  return 1;
+}
+
+int WebPPictureInitInternal(WebPPicture* picture, int version) {
+  if (WEBP_ABI_IS_INCOMPATIBLE(version, WEBP_ENCODER_ABI_VERSION)) {
+    return 0;   // caller/system version mismatch!
+  }
+  if (picture != NULL) {
+    memset(picture, 0, sizeof(*picture));
+    picture->writer = DummyWriter;
+    WebPEncodingSetError(picture, VP8_ENC_OK);
+  }
+  return 1;
 }
 
 //------------------------------------------------------------------------------
@@ -119,21 +143,23 @@ static void MapConfigToTools(VP8Encoder* const enc) {
 // Memory scaling with dimensions:
 //  memory (bytes) ~= 2.25 * w + 0.0625 * w * h
 //
-// Typical memory footprint (614x440 picture)
-//              encoder: 22111
-//                 info: 4368
-//                preds: 17741
-//          top samples: 1263
-//             non-zero: 175
-//             lf-stats: 0
-//                total: 45658
+// Typical memory footprint (768x510 picture)
+// Memory used:
+//              encoder: 33919
+//          block cache: 2880
+//                 info: 3072
+//                preds: 24897
+//          top samples: 1623
+//             non-zero: 196
+//             lf-stats: 2048
+//                total: 68635
 // Transient object sizes:
-//       VP8EncIterator: 3360
-//         VP8ModeScore: 872
-//       VP8SegmentInfo: 732
-//             VP8Proba: 18352
+//       VP8EncIterator: 352
+//         VP8ModeScore: 912
+//       VP8SegmentInfo: 532
+//             VP8Proba: 31032
 //              LFStats: 2048
-// Picture size (yuv): 419328
+// Picture size (yuv): 589824
 
 static VP8Encoder* InitVP8Encoder(const WebPConfig* const config,
                                   WebPPicture* const picture) {
@@ -225,16 +251,13 @@ static VP8Encoder* InitVP8Encoder(const WebPConfig* const config,
   ResetSegmentHeader(enc);
   ResetFilterHeader(enc);
   ResetBoundaryPredictions(enc);
-  VP8GetResidualCostInit();
-  VP8SetResidualCoeffsInit();
-  VP8EncInitAlpha(enc);
 
-  // lower quality means smaller output -> we modulate a little the page
-  // size based on quality. This is just a crude 1rst-order prediction.
-  {
-    const float scale = 1.f + config->quality * 5.f / 100.f;  // in [1,6]
-    VP8TBufferInit(&enc->tokens_, (int)(mb_w * mb_h * 4 * scale));
-  }
+  VP8EncInitAlpha(enc);
+#ifdef WEBP_EXPERIMENTAL_FEATURES
+  VP8EncInitLayer(enc);
+#endif
+
+  VP8TBufferInit(&enc->tokens_);
   return enc;
 }
 
@@ -242,8 +265,11 @@ static int DeleteVP8Encoder(VP8Encoder* enc) {
   int ok = 1;
   if (enc != NULL) {
     ok = VP8EncDeleteAlpha(enc);
+#ifdef WEBP_EXPERIMENTAL_FEATURES
+    VP8EncDeleteLayer(enc);
+#endif
     VP8TBufferClear(&enc->tokens_);
-    WebPSafeFree(enc);
+    free(enc);
   }
   return ok;
 }
@@ -328,24 +354,16 @@ int WebPEncode(const WebPConfig* config, WebPPicture* pic) {
     VP8Encoder* enc = NULL;
     if (pic->y == NULL || pic->u == NULL || pic->v == NULL) {
       // Make sure we have YUVA samples.
-      if (config->preprocessing & 4) {
-#if WEBP_ENCODER_ABI_VERSION > 0x0204
-        if (!WebPPictureSmartARGBToYUVA(pic)) {
-          return 0;
-        }
-#endif
-      } else {
-        float dithering = 0.f;
-        if (config->preprocessing & 2) {
-          const float x = config->quality / 100.f;
-          const float x2 = x * x;
-          // slowly decreasing from max dithering at low quality (q->0)
-          // to 0.5 dithering amplitude at high quality (q->100)
-          dithering = 1.0f + (0.5f - 1.0f) * x2 * x2;
-        }
-        if (!WebPPictureARGBToYUVADithered(pic, WEBP_YUV420, dithering)) {
-          return 0;
-        }
+      float dithering = 0.f;
+      if (config->preprocessing & 2) {
+        const float x = config->quality / 100.f;
+        const float x2 = x * x;
+        // slowly decreasing from max dithering at low quality (q->0)
+        // to 0.5 dithering amplitude at high quality (q->100)
+        dithering = 1.0f + (0.5f - 1.0f) * x2 * x2;
+      }
+      if (!WebPPictureARGBToYUVADithered(pic, WEBP_YUV420, dithering)) {
+        return 0;
       }
     }
 
@@ -362,6 +380,9 @@ int WebPEncode(const WebPConfig* config, WebPPicture* pic) {
       ok = ok && VP8EncTokenLoop(enc);
     }
     ok = ok && VP8EncFinishAlpha(enc);
+#ifdef WEBP_EXPERIMENTAL_FEATURES
+    ok = ok && VP8EncFinishLayer(enc);
+#endif
 
     ok = ok && VP8EncWrite(enc);
     StoreStats(enc);
@@ -380,3 +401,4 @@ int WebPEncode(const WebPConfig* config, WebPPicture* pic) {
 
   return ok;
 }
+

@@ -12,7 +12,7 @@
 #include "./wicdec.h"
 
 #ifdef HAVE_CONFIG_H
-#include "webp/config.h"
+#include "config.h"
 #endif
 
 #include <stdio.h>

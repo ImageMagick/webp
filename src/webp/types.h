@@ -23,22 +23,20 @@
 #else  /* __STRICT_ANSI__ */
 #define WEBP_INLINE inline
 #endif
-#else
+m#else
 typedef signed   char int8_t;
 typedef unsigned char uint8_t;
 typedef signed   short int16_t;
 typedef unsigned short uint16_t;
 typedef signed   int int32_t;
 typedef unsigned int uint32_t;
-/* This part added for ImageMagick */
-#if (_MSC_VER<=1200)
+#if defined(_MSC_VER) && (_MSC_VER<=1200)
   typedef unsigned __int64 uint64_t;
   typedef __int64 int64_t;
 #else
   typedef unsigned long long int uint64_t;
   typedef long long int int64_t;
 #endif
-/* End of ImageMagick part. */
 
 #define WEBP_INLINE __forceinline
 #endif  /* _MSC_VER */
@@ -51,7 +49,7 @@ typedef unsigned int uint32_t;
 #   if defined(_VISUALC_)
 #       pragma warning( disable : 4273 )
 #   endif
-#   if !defined(_MAGICKMOD_)
+#   if !defined(_WEBPLIB_)
 #       define WEBP_EXTERN(type) extern __declspec(dllimport) type
 #       pragma message( "libwebp compiling as DLL import" )
 #   else

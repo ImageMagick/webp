@@ -32,7 +32,7 @@ int VP8LColorCacheInit(VP8LColorCache* const cc, int hash_bits) {
 
 void VP8LColorCacheClear(VP8LColorCache* const cc) {
   if (cc != NULL) {
-    WebPSafeFree(cc->colors_);
+    free(cc->colors_);
     cc->colors_ = NULL;
   }
 }
