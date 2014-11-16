@@ -23,7 +23,7 @@
 #else  /* __STRICT_ANSI__ */
 #define WEBP_INLINE inline
 #endif
-m#else
+#else
 typedef signed   char int8_t;
 typedef unsigned char uint8_t;
 typedef signed   short int16_t;
