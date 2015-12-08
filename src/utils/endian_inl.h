@@ -35,14 +35,14 @@
 #endif
 
 #if !defined(HAVE_CONFIG_H)
-// clang-3.3 and gcc-4.3 have builtin functions for swap32/swap64
-#if LOCAL_GCC_PREREQ(4,3) || LOCAL_CLANG_PREREQ(3,3)
-#define HAVE_BUILTIN_BSWAP32
-#define HAVE_BUILTIN_BSWAP64
-#endif
-// clang-3.3 and gcc-4.8 have a builtin function for swap16
-#if LOCAL_GCC_PREREQ(4,8) || LOCAL_CLANG_PREREQ(3,3)
+#if LOCAL_GCC_PREREQ(4,8) || __has_builtin(__builtin_bswap16)
 #define HAVE_BUILTIN_BSWAP16
+#endif
+#if LOCAL_GCC_PREREQ(4,3) || __has_builtin(__builtin_bswap32)
+#define HAVE_BUILTIN_BSWAP32
+#endif
+#if LOCAL_GCC_PREREQ(4,3) || __has_builtin(__builtin_bswap64)
+#define HAVE_BUILTIN_BSWAP64
 #endif
 #endif  // !HAVE_CONFIG_H
 
@@ -73,7 +73,7 @@ static WEBP_INLINE uint32_t BSwap32(uint32_t x) {
   uint32_t swapped_bytes;
   __asm__ volatile("bswap %0" : "=r"(swapped_bytes) : "0"(x));
   return swapped_bytes;
-#elif defined(_MSC_VER) && (_MSC_VER >= 1400)
+#elif defined(_MSC_VER)
   return (uint32_t)_byteswap_ulong(x);
 #else
   return (x >> 24) | ((x >> 8) & 0xff00) | ((x << 8) & 0xff0000) | (x << 24);
