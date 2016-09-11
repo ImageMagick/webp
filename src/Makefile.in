@@ -82,8 +82,9 @@ build_triplet = @build@
 host_triplet = @host@
 @WANT_MUX_TRUE@am__append_1 = mux
 @WANT_DEMUX_TRUE@am__append_2 = demux
-@BUILD_LIBWEBPDECODER_TRUE@am__append_3 = libwebpdecoder.la
-@BUILD_LIBWEBPDECODER_TRUE@am__append_4 = libwebpdecoder.pc
+@WANT_EXTRAS_TRUE@am__append_3 = extras
+@BUILD_LIBWEBPDECODER_TRUE@am__append_4 = libwebpdecoder.la
+@BUILD_LIBWEBPDECODER_TRUE@am__append_5 = libwebpdecoder.pc
 subdir = src
 DIST_COMMON = $(srcdir)/Makefile.in $(srcdir)/Makefile.am \
 	$(srcdir)/libwebp.pc.in $(srcdir)/libwebpdecoder.pc.in \
@@ -228,7 +229,7 @@ am__define_uniq_tagged_files = \
   done | $(am__uniquify_input)`
 ETAGS = etags
 CTAGS = ctags
-DIST_SUBDIRS = dec enc dsp utils . mux demux
+DIST_SUBDIRS = dec enc dsp utils . mux demux extras
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 am__relativize = \
   dir0=`pwd`; \
@@ -258,6 +259,7 @@ am__relativize = \
 ACLOCAL = @ACLOCAL@
 AMTAR = @AMTAR@
 AM_CFLAGS = @AM_CFLAGS@
+AM_CPPFLAGS = @AM_CPPFLAGS@
 AM_DEFAULT_VERBOSITY = @AM_DEFAULT_VERBOSITY@
 AR = @AR@
 AUTOCONF = @AUTOCONF@
@@ -306,6 +308,7 @@ LTLIBOBJS = @LTLIBOBJS@
 MAKEINFO = @MAKEINFO@
 MANIFEST_TOOL = @MANIFEST_TOOL@
 MKDIR_P = @MKDIR_P@
+NEON_FLAGS = @NEON_FLAGS@
 NM = @NM@
 NMEDIT = @NMEDIT@
 OBJDUMP = @OBJDUMP@
@@ -330,6 +333,7 @@ SED = @SED@
 SET_MAKE = @SET_MAKE@
 SHELL = @SHELL@
 SSE2_FLAGS = @SSE2_FLAGS@
+SSE41_FLAGS = @SSE41_FLAGS@
 STRIP = @STRIP@
 TIFF_INCLUDES = @TIFF_INCLUDES@
 TIFF_LIBS = @TIFF_LIBS@
@@ -391,10 +395,11 @@ top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 
-# The mux and demux libraries depend on libwebp, thus the '.' to force the
-# build order so it's available to them.
-SUBDIRS = dec enc dsp utils . $(am__append_1) $(am__append_2)
-lib_LTLIBRARIES = libwebp.la $(am__append_3)
+# The mux, demux and extras libraries depend on libwebp, thus the '.' to force
+# the build order so it's available to them.
+SUBDIRS = dec enc dsp utils . $(am__append_1) $(am__append_2) \
+	$(am__append_3)
+lib_LTLIBRARIES = libwebp.la $(am__append_4)
 common_HEADERS = webp/decode.h webp/types.h
 commondir = $(includedir)/webp
 libwebp_la_SOURCES = 
@@ -407,15 +412,15 @@ libwebp_la_LIBADD = dec/libwebpdecode.la dsp/libwebpdsp.la \
 # other than the ones listed on the command line, i.e., after linking, it will
 # not have unresolved symbols. Some platforms (Windows among them) require all
 # symbols in shared libraries to be resolved at library creation.
-libwebp_la_LDFLAGS = -no-undefined -version-info 5:4:0
+libwebp_la_LDFLAGS = -no-undefined -version-info 6:1:0
 libwebpincludedir = $(includedir)/webp
-pkgconfig_DATA = libwebp.pc $(am__append_4)
+pkgconfig_DATA = libwebp.pc $(am__append_5)
 @BUILD_LIBWEBPDECODER_TRUE@libwebpdecoder_la_SOURCES = 
 @BUILD_LIBWEBPDECODER_TRUE@libwebpdecoder_la_LIBADD =  \
 @BUILD_LIBWEBPDECODER_TRUE@	dec/libwebpdecode.la \
 @BUILD_LIBWEBPDECODER_TRUE@	dsp/libwebpdspdecode.la \
 @BUILD_LIBWEBPDECODER_TRUE@	utils/libwebputilsdecode.la
-@BUILD_LIBWEBPDECODER_TRUE@libwebpdecoder_la_LDFLAGS = -no-undefined -version-info 1:4:0
+@BUILD_LIBWEBPDECODER_TRUE@libwebpdecoder_la_LDFLAGS = -no-undefined -version-info 2:1:0
 all: all-recursive
 
 .SUFFIXES:

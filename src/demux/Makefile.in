@@ -126,7 +126,7 @@ am__installdirs = "$(DESTDIR)$(libdir)" "$(DESTDIR)$(pkgconfigdir)" \
 	"$(DESTDIR)$(libwebpdemuxincludedir)"
 LTLIBRARIES = $(lib_LTLIBRARIES)
 libwebpdemux_la_DEPENDENCIES = ../libwebp.la
-am_libwebpdemux_la_OBJECTS = demux.lo
+am_libwebpdemux_la_OBJECTS = anim_decode.lo demux.lo
 libwebpdemux_la_OBJECTS = $(am_libwebpdemux_la_OBJECTS)
 AM_V_lt = $(am__v_lt_@AM_V@)
 am__v_lt_ = $(am__v_lt_@AM_DEFAULT_V@)
@@ -202,6 +202,7 @@ DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 ACLOCAL = @ACLOCAL@
 AMTAR = @AMTAR@
 AM_CFLAGS = @AM_CFLAGS@
+AM_CPPFLAGS = @AM_CPPFLAGS@
 AM_DEFAULT_VERBOSITY = @AM_DEFAULT_VERBOSITY@
 AR = @AR@
 AUTOCONF = @AUTOCONF@
@@ -250,6 +251,7 @@ LTLIBOBJS = @LTLIBOBJS@
 MAKEINFO = @MAKEINFO@
 MANIFEST_TOOL = @MANIFEST_TOOL@
 MKDIR_P = @MKDIR_P@
+NEON_FLAGS = @NEON_FLAGS@
 NM = @NM@
 NMEDIT = @NMEDIT@
 OBJDUMP = @OBJDUMP@
@@ -274,6 +276,7 @@ SED = @SED@
 SET_MAKE = @SET_MAKE@
 SHELL = @SHELL@
 SSE2_FLAGS = @SSE2_FLAGS@
+SSE41_FLAGS = @SSE41_FLAGS@
 STRIP = @STRIP@
 TIFF_INCLUDES = @TIFF_INCLUDES@
 TIFF_LIBS = @TIFF_LIBS@
@@ -335,11 +338,11 @@ top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 lib_LTLIBRARIES = libwebpdemux.la
-libwebpdemux_la_SOURCES = demux.c
+libwebpdemux_la_SOURCES = anim_decode.c demux.c
 libwebpdemuxinclude_HEADERS = ../webp/demux.h ../webp/mux_types.h \
 	../webp/types.h
 libwebpdemux_la_LIBADD = ../libwebp.la
-libwebpdemux_la_LDFLAGS = -no-undefined -version-info 1:2:0
+libwebpdemux_la_LDFLAGS = -no-undefined -version-info 2:0:0
 libwebpdemuxincludedir = $(includedir)/webp
 pkgconfig_DATA = libwebpdemux.pc
 all: all-am
@@ -423,6 +426,7 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/anim_decode.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/demux.Plo@am__quote@
 
 .c.o:

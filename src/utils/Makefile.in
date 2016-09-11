@@ -82,7 +82,7 @@ host_triplet = @host@
 @BUILD_LIBWEBPDECODER_TRUE@am__append_1 = libwebputilsdecode.la
 subdir = src/utils
 DIST_COMMON = $(srcdir)/Makefile.in $(srcdir)/Makefile.am \
-	$(top_srcdir)/depcomp $(common_HEADERS)
+	$(top_srcdir)/depcomp $(common_HEADERS) $(noinst_HEADERS)
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/m4/ax_pthread.m4 \
 	$(top_srcdir)/m4/libtool.m4 $(top_srcdir)/m4/ltoptions.m4 \
@@ -185,7 +185,7 @@ am__uninstall_files_from_dir = { \
          $(am__cd) "$$dir" && rm -f $$files; }; \
   }
 am__installdirs = "$(DESTDIR)$(commondir)"
-HEADERS = $(common_HEADERS)
+HEADERS = $(common_HEADERS) $(noinst_HEADERS)
 am__tagged_files = $(HEADERS) $(SOURCES) $(TAGS_FILES) $(LISP)
 # Read a list of newline-separated strings from the standard input,
 # and print each of them once, without duplicates.  Input order is
@@ -209,6 +209,7 @@ DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 ACLOCAL = @ACLOCAL@
 AMTAR = @AMTAR@
 AM_CFLAGS = @AM_CFLAGS@
+AM_CPPFLAGS = @AM_CPPFLAGS@
 AM_DEFAULT_VERBOSITY = @AM_DEFAULT_VERBOSITY@
 AR = @AR@
 AUTOCONF = @AUTOCONF@
@@ -257,6 +258,7 @@ LTLIBOBJS = @LTLIBOBJS@
 MAKEINFO = @MAKEINFO@
 MANIFEST_TOOL = @MANIFEST_TOOL@
 MKDIR_P = @MKDIR_P@
+NEON_FLAGS = @NEON_FLAGS@
 NM = @NM@
 NMEDIT = @NMEDIT@
 OBJDUMP = @OBJDUMP@
@@ -281,6 +283,7 @@ SED = @SED@
 SET_MAKE = @SET_MAKE@
 SHELL = @SHELL@
 SSE2_FLAGS = @SSE2_FLAGS@
+SSE41_FLAGS = @SSE41_FLAGS@
 STRIP = @STRIP@
 TIFF_INCLUDES = @TIFF_INCLUDES@
 TIFF_LIBS = @TIFF_LIBS@
@@ -344,6 +347,8 @@ top_srcdir = @top_srcdir@
 noinst_LTLIBRARIES = libwebputils.la $(am__append_1)
 common_HEADERS = ../webp/types.h
 commondir = $(includedir)/webp
+noinst_HEADERS = ../dsp/dsp.h ../webp/decode.h ../webp/encode.h \
+	../webp/format_constants.h
 COMMON_SOURCES = bit_reader.c bit_reader.h bit_reader_inl.h \
 	color_cache.c color_cache.h endian_inl.h filters.c filters.h \
 	huffman.c huffman.h quant_levels_dec.c quant_levels_dec.h \

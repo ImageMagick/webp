@@ -116,11 +116,20 @@
 /* Set to 1 if JPEG library is installed */
 #undef WEBP_HAVE_JPEG
 
+/* Set to 1 if NEON is supported */
+#undef WEBP_HAVE_NEON
+
+/* Set to 1 if runtime detection of NEON is enabled */
+#undef WEBP_HAVE_NEON_RTCD
+
 /* Set to 1 if PNG library is installed */
 #undef WEBP_HAVE_PNG
 
 /* Set to 1 if SSE2 is supported */
 #undef WEBP_HAVE_SSE2
+
+/* Set to 1 if SSE4.1 is supported */
+#undef WEBP_HAVE_SSE41
 
 /* Set to 1 if TIFF library is installed */
 #undef WEBP_HAVE_TIFF

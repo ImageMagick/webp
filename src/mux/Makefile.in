@@ -126,7 +126,8 @@ am__installdirs = "$(DESTDIR)$(libdir)" "$(DESTDIR)$(pkgconfigdir)" \
 	"$(DESTDIR)$(libwebpmuxincludedir)"
 LTLIBRARIES = $(lib_LTLIBRARIES)
 libwebpmux_la_DEPENDENCIES = ../libwebp.la
-am_libwebpmux_la_OBJECTS = muxedit.lo muxinternal.lo muxread.lo
+am_libwebpmux_la_OBJECTS = anim_encode.lo muxedit.lo muxinternal.lo \
+	muxread.lo
 libwebpmux_la_OBJECTS = $(am_libwebpmux_la_OBJECTS)
 AM_V_lt = $(am__v_lt_@AM_V@)
 am__v_lt_ = $(am__v_lt_@AM_DEFAULT_V@)
@@ -201,6 +202,7 @@ DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 ACLOCAL = @ACLOCAL@
 AMTAR = @AMTAR@
 AM_CFLAGS = @AM_CFLAGS@
+AM_CPPFLAGS = @AM_CPPFLAGS@
 AM_DEFAULT_VERBOSITY = @AM_DEFAULT_VERBOSITY@
 AR = @AR@
 AUTOCONF = @AUTOCONF@
@@ -249,6 +251,7 @@ LTLIBOBJS = @LTLIBOBJS@
 MAKEINFO = @MAKEINFO@
 MANIFEST_TOOL = @MANIFEST_TOOL@
 MKDIR_P = @MKDIR_P@
+NEON_FLAGS = @NEON_FLAGS@
 NM = @NM@
 NMEDIT = @NMEDIT@
 OBJDUMP = @OBJDUMP@
@@ -273,6 +276,7 @@ SED = @SED@
 SET_MAKE = @SET_MAKE@
 SHELL = @SHELL@
 SSE2_FLAGS = @SSE2_FLAGS@
+SSE41_FLAGS = @SSE41_FLAGS@
 STRIP = @STRIP@
 TIFF_INCLUDES = @TIFF_INCLUDES@
 TIFF_LIBS = @TIFF_LIBS@
@@ -334,11 +338,12 @@ top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 lib_LTLIBRARIES = libwebpmux.la
-libwebpmux_la_SOURCES = muxedit.c muxi.h muxinternal.c muxread.c
+libwebpmux_la_SOURCES = anim_encode.c muxedit.c muxi.h muxinternal.c \
+	muxread.c
 libwebpmuxinclude_HEADERS = ../webp/mux.h ../webp/mux_types.h \
 	../webp/types.h
 libwebpmux_la_LIBADD = ../libwebp.la
-libwebpmux_la_LDFLAGS = -no-undefined -version-info 1:2:0
+libwebpmux_la_LDFLAGS = -no-undefined -version-info 2:1:0
 libwebpmuxincludedir = $(includedir)/webp
 pkgconfig_DATA = libwebpmux.pc
 all: all-am
@@ -422,6 +427,7 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/anim_encode.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/muxedit.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/muxinternal.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/muxread.Plo@am__quote@
