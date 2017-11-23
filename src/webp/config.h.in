@@ -101,9 +101,6 @@
 /* Enable experimental code */
 #undef WEBP_EXPERIMENTAL_FEATURES
 
-/* Define to 1 to force aligned memory operations */
-#undef WEBP_FORCE_ALIGNED
-
 /* Set to 1 if AVX2 is supported */
 #undef WEBP_HAVE_AVX2
 

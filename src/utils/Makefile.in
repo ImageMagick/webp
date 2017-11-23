@@ -96,9 +96,11 @@ CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
 LTLIBRARIES = $(noinst_LTLIBRARIES)
 libwebputils_la_LIBADD =
-am__objects_1 = bit_reader.lo color_cache.lo filters.lo huffman.lo \
-	quant_levels_dec.lo rescaler.lo random.lo thread.lo utils.lo
-am__objects_2 = bit_writer.lo huffman_encode.lo quant_levels.lo
+am__objects_1 = bit_reader_utils.lo color_cache_utils.lo \
+	filters_utils.lo huffman_utils.lo quant_levels_dec_utils.lo \
+	rescaler_utils.lo random_utils.lo thread_utils.lo utils.lo
+am__objects_2 = bit_writer_utils.lo huffman_encode_utils.lo \
+	quant_levels_utils.lo
 am_libwebputils_la_OBJECTS = $(am__objects_1) $(am__objects_2)
 libwebputils_la_OBJECTS = $(am_libwebputils_la_OBJECTS)
 AM_V_lt = $(am__v_lt_@AM_V@)
@@ -106,11 +108,13 @@ am__v_lt_ = $(am__v_lt_@AM_DEFAULT_V@)
 am__v_lt_0 = --silent
 am__v_lt_1 = 
 libwebputilsdecode_la_LIBADD =
-am__libwebputilsdecode_la_SOURCES_DIST = bit_reader.c bit_reader.h \
-	bit_reader_inl.h color_cache.c color_cache.h endian_inl.h \
-	filters.c filters.h huffman.c huffman.h quant_levels_dec.c \
-	quant_levels_dec.h rescaler.c rescaler.h random.c random.h \
-	thread.c thread.h utils.c utils.h
+am__libwebputilsdecode_la_SOURCES_DIST = bit_reader_utils.c \
+	bit_reader_utils.h bit_reader_inl_utils.h color_cache_utils.c \
+	color_cache_utils.h endian_inl_utils.h filters_utils.c \
+	filters_utils.h huffman_utils.c huffman_utils.h \
+	quant_levels_dec_utils.c quant_levels_dec_utils.h \
+	rescaler_utils.c rescaler_utils.h random_utils.c \
+	random_utils.h thread_utils.c thread_utils.h utils.c utils.h
 @BUILD_LIBWEBPDECODER_TRUE@am_libwebputilsdecode_la_OBJECTS =  \
 @BUILD_LIBWEBPDECODER_TRUE@	$(am__objects_1)
 libwebputilsdecode_la_OBJECTS = $(am_libwebputilsdecode_la_OBJECTS)
@@ -349,13 +353,16 @@ common_HEADERS = ../webp/types.h
 commondir = $(includedir)/webp
 noinst_HEADERS = ../dsp/dsp.h ../webp/decode.h ../webp/encode.h \
 	../webp/format_constants.h
-COMMON_SOURCES = bit_reader.c bit_reader.h bit_reader_inl.h \
-	color_cache.c color_cache.h endian_inl.h filters.c filters.h \
-	huffman.c huffman.h quant_levels_dec.c quant_levels_dec.h \
-	rescaler.c rescaler.h random.c random.h thread.c thread.h \
+COMMON_SOURCES = bit_reader_utils.c bit_reader_utils.h \
+	bit_reader_inl_utils.h color_cache_utils.c color_cache_utils.h \
+	endian_inl_utils.h filters_utils.c filters_utils.h \
+	huffman_utils.c huffman_utils.h quant_levels_dec_utils.c \
+	quant_levels_dec_utils.h rescaler_utils.c rescaler_utils.h \
+	random_utils.c random_utils.h thread_utils.c thread_utils.h \
 	utils.c utils.h
-ENC_SOURCES = bit_writer.c bit_writer.h huffman_encode.c \
-	huffman_encode.h quant_levels.c quant_levels.h
+ENC_SOURCES = bit_writer_utils.c bit_writer_utils.h \
+	huffman_encode_utils.c huffman_encode_utils.h \
+	quant_levels_utils.c quant_levels_utils.h
 libwebputils_la_SOURCES = $(COMMON_SOURCES) $(ENC_SOURCES)
 @BUILD_LIBWEBPDECODER_TRUE@libwebputilsdecode_la_SOURCES = $(COMMON_SOURCES)
 all: all-am
@@ -416,17 +423,17 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/bit_reader.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/bit_writer.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/color_cache.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/filters.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/huffman.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/huffman_encode.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/quant_levels.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/quant_levels_dec.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/random.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/rescaler.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/thread.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/bit_reader_utils.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/bit_writer_utils.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/color_cache_utils.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/filters_utils.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/huffman_encode_utils.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/huffman_utils.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/quant_levels_dec_utils.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/quant_levels_utils.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/random_utils.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/rescaler_utils.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/thread_utils.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/utils.Plo@am__quote@
 
 .c.o:

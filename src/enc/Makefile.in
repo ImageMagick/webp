@@ -96,21 +96,24 @@ CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
 LTLIBRARIES = $(noinst_LTLIBRARIES)
 libwebpencode_la_LIBADD =
-am_libwebpencode_la_OBJECTS = libwebpencode_la-alpha.lo \
-	libwebpencode_la-analysis.lo \
-	libwebpencode_la-backward_references.lo \
-	libwebpencode_la-config.lo libwebpencode_la-cost.lo \
-	libwebpencode_la-delta_palettization.lo \
-	libwebpencode_la-filter.lo libwebpencode_la-frame.lo \
-	libwebpencode_la-histogram.lo libwebpencode_la-iterator.lo \
-	libwebpencode_la-near_lossless.lo libwebpencode_la-picture.lo \
-	libwebpencode_la-picture_csp.lo \
-	libwebpencode_la-picture_psnr.lo \
-	libwebpencode_la-picture_rescale.lo \
-	libwebpencode_la-picture_tools.lo libwebpencode_la-quant.lo \
-	libwebpencode_la-syntax.lo libwebpencode_la-token.lo \
-	libwebpencode_la-tree.lo libwebpencode_la-vp8l.lo \
-	libwebpencode_la-webpenc.lo
+am_libwebpencode_la_OBJECTS = libwebpencode_la-alpha_enc.lo \
+	libwebpencode_la-analysis_enc.lo \
+	libwebpencode_la-backward_references_enc.lo \
+	libwebpencode_la-config_enc.lo libwebpencode_la-cost_enc.lo \
+	libwebpencode_la-delta_palettization_enc.lo \
+	libwebpencode_la-filter_enc.lo libwebpencode_la-frame_enc.lo \
+	libwebpencode_la-histogram_enc.lo \
+	libwebpencode_la-iterator_enc.lo \
+	libwebpencode_la-near_lossless_enc.lo \
+	libwebpencode_la-picture_enc.lo \
+	libwebpencode_la-picture_csp_enc.lo \
+	libwebpencode_la-picture_psnr_enc.lo \
+	libwebpencode_la-picture_rescale_enc.lo \
+	libwebpencode_la-picture_tools_enc.lo \
+	libwebpencode_la-predictor_enc.lo \
+	libwebpencode_la-quant_enc.lo libwebpencode_la-syntax_enc.lo \
+	libwebpencode_la-token_enc.lo libwebpencode_la-tree_enc.lo \
+	libwebpencode_la-vp8l_enc.lo libwebpencode_la-webp_enc.lo
 libwebpencode_la_OBJECTS = $(am_libwebpencode_la_OBJECTS)
 AM_V_lt = $(am__v_lt_@AM_V@)
 am__v_lt_ = $(am__v_lt_@AM_DEFAULT_V@)
@@ -349,13 +352,15 @@ top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 noinst_LTLIBRARIES = libwebpencode.la
-libwebpencode_la_SOURCES = alpha.c analysis.c backward_references.c \
-	backward_references.h config.c cost.c cost.h \
-	delta_palettization.c delta_palettization.h filter.c frame.c \
-	histogram.c histogram.h iterator.c near_lossless.c picture.c \
-	picture_csp.c picture_psnr.c picture_rescale.c picture_tools.c \
-	quant.c syntax.c token.c tree.c vp8enci.h vp8l.c vp8li.h \
-	webpenc.c
+libwebpencode_la_SOURCES = alpha_enc.c analysis_enc.c \
+	backward_references_enc.c backward_references_enc.h \
+	config_enc.c cost_enc.c cost_enc.h delta_palettization_enc.c \
+	delta_palettization_enc.h filter_enc.c frame_enc.c \
+	histogram_enc.c histogram_enc.h iterator_enc.c \
+	near_lossless_enc.c picture_enc.c picture_csp_enc.c \
+	picture_psnr_enc.c picture_rescale_enc.c picture_tools_enc.c \
+	predictor_enc.c quant_enc.c syntax_enc.c token_enc.c \
+	tree_enc.c vp8i_enc.h vp8l_enc.c vp8li_enc.h webp_enc.c
 libwebpencodeinclude_HEADERS = ../webp/encode.h ../webp/types.h
 noinst_HEADERS = ../webp/format_constants.h
 libwebpencode_la_LDFLAGS = -lm
@@ -416,28 +421,29 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libwebpencode_la-alpha.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libwebpencode_la-analysis.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libwebpencode_la-backward_references.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libwebpencode_la-config.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libwebpencode_la-cost.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libwebpencode_la-delta_palettization.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libwebpencode_la-filter.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libwebpencode_la-frame.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libwebpencode_la-histogram.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libwebpencode_la-iterator.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libwebpencode_la-near_lossless.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libwebpencode_la-picture.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libwebpencode_la-picture_csp.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libwebpencode_la-picture_psnr.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libwebpencode_la-picture_rescale.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libwebpencode_la-picture_tools.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libwebpencode_la-quant.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libwebpencode_la-syntax.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libwebpencode_la-token.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libwebpencode_la-tree.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libwebpencode_la-vp8l.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libwebpencode_la-webpenc.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libwebpencode_la-alpha_enc.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libwebpencode_la-analysis_enc.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libwebpencode_la-backward_references_enc.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libwebpencode_la-config_enc.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libwebpencode_la-cost_enc.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libwebpencode_la-delta_palettization_enc.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libwebpencode_la-filter_enc.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libwebpencode_la-frame_enc.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libwebpencode_la-histogram_enc.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libwebpencode_la-iterator_enc.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libwebpencode_la-near_lossless_enc.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libwebpencode_la-picture_csp_enc.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libwebpencode_la-picture_enc.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libwebpencode_la-picture_psnr_enc.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libwebpencode_la-picture_rescale_enc.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libwebpencode_la-picture_tools_enc.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libwebpencode_la-predictor_enc.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libwebpencode_la-quant_enc.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libwebpencode_la-syntax_enc.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libwebpencode_la-token_enc.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libwebpencode_la-tree_enc.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libwebpencode_la-vp8l_enc.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libwebpencode_la-webp_enc.Plo@am__quote@
 
 .c.o:
 @am__fastdepCC_TRUE@	$(AM_V_CC)depbase=`echo $@ | sed 's|[^/]*$$|$(DEPDIR)/&|;s|\.o$$||'`;\
@@ -463,159 +469,166 @@ distclean-compile:
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LTCOMPILE) -c -o $@ $<
 
-libwebpencode_la-alpha.lo: alpha.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libwebpencode_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT libwebpencode_la-alpha.lo -MD -MP -MF $(DEPDIR)/libwebpencode_la-alpha.Tpo -c -o libwebpencode_la-alpha.lo `test -f 'alpha.c' || echo '$(srcdir)/'`alpha.c
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libwebpencode_la-alpha.Tpo $(DEPDIR)/libwebpencode_la-alpha.Plo
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='alpha.c' object='libwebpencode_la-alpha.lo' libtool=yes @AMDEPBACKSLASH@
+libwebpencode_la-alpha_enc.lo: alpha_enc.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libwebpencode_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT libwebpencode_la-alpha_enc.lo -MD -MP -MF $(DEPDIR)/libwebpencode_la-alpha_enc.Tpo -c -o libwebpencode_la-alpha_enc.lo `test -f 'alpha_enc.c' || echo '$(srcdir)/'`alpha_enc.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libwebpencode_la-alpha_enc.Tpo $(DEPDIR)/libwebpencode_la-alpha_enc.Plo
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='alpha_enc.c' object='libwebpencode_la-alpha_enc.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libwebpencode_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o libwebpencode_la-alpha.lo `test -f 'alpha.c' || echo '$(srcdir)/'`alpha.c
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libwebpencode_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o libwebpencode_la-alpha_enc.lo `test -f 'alpha_enc.c' || echo '$(srcdir)/'`alpha_enc.c
 
-libwebpencode_la-analysis.lo: analysis.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libwebpencode_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT libwebpencode_la-analysis.lo -MD -MP -MF $(DEPDIR)/libwebpencode_la-analysis.Tpo -c -o libwebpencode_la-analysis.lo `test -f 'analysis.c' || echo '$(srcdir)/'`analysis.c
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libwebpencode_la-analysis.Tpo $(DEPDIR)/libwebpencode_la-analysis.Plo
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='analysis.c' object='libwebpencode_la-analysis.lo' libtool=yes @AMDEPBACKSLASH@
+libwebpencode_la-analysis_enc.lo: analysis_enc.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libwebpencode_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT libwebpencode_la-analysis_enc.lo -MD -MP -MF $(DEPDIR)/libwebpencode_la-analysis_enc.Tpo -c -o libwebpencode_la-analysis_enc.lo `test -f 'analysis_enc.c' || echo '$(srcdir)/'`analysis_enc.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libwebpencode_la-analysis_enc.Tpo $(DEPDIR)/libwebpencode_la-analysis_enc.Plo
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='analysis_enc.c' object='libwebpencode_la-analysis_enc.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libwebpencode_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o libwebpencode_la-analysis.lo `test -f 'analysis.c' || echo '$(srcdir)/'`analysis.c
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libwebpencode_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o libwebpencode_la-analysis_enc.lo `test -f 'analysis_enc.c' || echo '$(srcdir)/'`analysis_enc.c
 
-libwebpencode_la-backward_references.lo: backward_references.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libwebpencode_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT libwebpencode_la-backward_references.lo -MD -MP -MF $(DEPDIR)/libwebpencode_la-backward_references.Tpo -c -o libwebpencode_la-backward_references.lo `test -f 'backward_references.c' || echo '$(srcdir)/'`backward_references.c
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libwebpencode_la-backward_references.Tpo $(DEPDIR)/libwebpencode_la-backward_references.Plo
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='backward_references.c' object='libwebpencode_la-backward_references.lo' libtool=yes @AMDEPBACKSLASH@
+libwebpencode_la-backward_references_enc.lo: backward_references_enc.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libwebpencode_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT libwebpencode_la-backward_references_enc.lo -MD -MP -MF $(DEPDIR)/libwebpencode_la-backward_references_enc.Tpo -c -o libwebpencode_la-backward_references_enc.lo `test -f 'backward_references_enc.c' || echo '$(srcdir)/'`backward_references_enc.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libwebpencode_la-backward_references_enc.Tpo $(DEPDIR)/libwebpencode_la-backward_references_enc.Plo
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='backward_references_enc.c' object='libwebpencode_la-backward_references_enc.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libwebpencode_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o libwebpencode_la-backward_references.lo `test -f 'backward_references.c' || echo '$(srcdir)/'`backward_references.c
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libwebpencode_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o libwebpencode_la-backward_references_enc.lo `test -f 'backward_references_enc.c' || echo '$(srcdir)/'`backward_references_enc.c
 
-libwebpencode_la-config.lo: config.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libwebpencode_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT libwebpencode_la-config.lo -MD -MP -MF $(DEPDIR)/libwebpencode_la-config.Tpo -c -o libwebpencode_la-config.lo `test -f 'config.c' || echo '$(srcdir)/'`config.c
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libwebpencode_la-config.Tpo $(DEPDIR)/libwebpencode_la-config.Plo
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='config.c' object='libwebpencode_la-config.lo' libtool=yes @AMDEPBACKSLASH@
+libwebpencode_la-config_enc.lo: config_enc.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libwebpencode_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT libwebpencode_la-config_enc.lo -MD -MP -MF $(DEPDIR)/libwebpencode_la-config_enc.Tpo -c -o libwebpencode_la-config_enc.lo `test -f 'config_enc.c' || echo '$(srcdir)/'`config_enc.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libwebpencode_la-config_enc.Tpo $(DEPDIR)/libwebpencode_la-config_enc.Plo
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='config_enc.c' object='libwebpencode_la-config_enc.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libwebpencode_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o libwebpencode_la-config.lo `test -f 'config.c' || echo '$(srcdir)/'`config.c
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libwebpencode_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o libwebpencode_la-config_enc.lo `test -f 'config_enc.c' || echo '$(srcdir)/'`config_enc.c
 
-libwebpencode_la-cost.lo: cost.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libwebpencode_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT libwebpencode_la-cost.lo -MD -MP -MF $(DEPDIR)/libwebpencode_la-cost.Tpo -c -o libwebpencode_la-cost.lo `test -f 'cost.c' || echo '$(srcdir)/'`cost.c
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libwebpencode_la-cost.Tpo $(DEPDIR)/libwebpencode_la-cost.Plo
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='cost.c' object='libwebpencode_la-cost.lo' libtool=yes @AMDEPBACKSLASH@
+libwebpencode_la-cost_enc.lo: cost_enc.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libwebpencode_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT libwebpencode_la-cost_enc.lo -MD -MP -MF $(DEPDIR)/libwebpencode_la-cost_enc.Tpo -c -o libwebpencode_la-cost_enc.lo `test -f 'cost_enc.c' || echo '$(srcdir)/'`cost_enc.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libwebpencode_la-cost_enc.Tpo $(DEPDIR)/libwebpencode_la-cost_enc.Plo
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='cost_enc.c' object='libwebpencode_la-cost_enc.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libwebpencode_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o libwebpencode_la-cost.lo `test -f 'cost.c' || echo '$(srcdir)/'`cost.c
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libwebpencode_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o libwebpencode_la-cost_enc.lo `test -f 'cost_enc.c' || echo '$(srcdir)/'`cost_enc.c
 
-libwebpencode_la-delta_palettization.lo: delta_palettization.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libwebpencode_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT libwebpencode_la-delta_palettization.lo -MD -MP -MF $(DEPDIR)/libwebpencode_la-delta_palettization.Tpo -c -o libwebpencode_la-delta_palettization.lo `test -f 'delta_palettization.c' || echo '$(srcdir)/'`delta_palettization.c
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libwebpencode_la-delta_palettization.Tpo $(DEPDIR)/libwebpencode_la-delta_palettization.Plo
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='delta_palettization.c' object='libwebpencode_la-delta_palettization.lo' libtool=yes @AMDEPBACKSLASH@
+libwebpencode_la-delta_palettization_enc.lo: delta_palettization_enc.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libwebpencode_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT libwebpencode_la-delta_palettization_enc.lo -MD -MP -MF $(DEPDIR)/libwebpencode_la-delta_palettization_enc.Tpo -c -o libwebpencode_la-delta_palettization_enc.lo `test -f 'delta_palettization_enc.c' || echo '$(srcdir)/'`delta_palettization_enc.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libwebpencode_la-delta_palettization_enc.Tpo $(DEPDIR)/libwebpencode_la-delta_palettization_enc.Plo
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='delta_palettization_enc.c' object='libwebpencode_la-delta_palettization_enc.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libwebpencode_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o libwebpencode_la-delta_palettization.lo `test -f 'delta_palettization.c' || echo '$(srcdir)/'`delta_palettization.c
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libwebpencode_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o libwebpencode_la-delta_palettization_enc.lo `test -f 'delta_palettization_enc.c' || echo '$(srcdir)/'`delta_palettization_enc.c
 
-libwebpencode_la-filter.lo: filter.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libwebpencode_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT libwebpencode_la-filter.lo -MD -MP -MF $(DEPDIR)/libwebpencode_la-filter.Tpo -c -o libwebpencode_la-filter.lo `test -f 'filter.c' || echo '$(srcdir)/'`filter.c
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libwebpencode_la-filter.Tpo $(DEPDIR)/libwebpencode_la-filter.Plo
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='filter.c' object='libwebpencode_la-filter.lo' libtool=yes @AMDEPBACKSLASH@
+libwebpencode_la-filter_enc.lo: filter_enc.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libwebpencode_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT libwebpencode_la-filter_enc.lo -MD -MP -MF $(DEPDIR)/libwebpencode_la-filter_enc.Tpo -c -o libwebpencode_la-filter_enc.lo `test -f 'filter_enc.c' || echo '$(srcdir)/'`filter_enc.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libwebpencode_la-filter_enc.Tpo $(DEPDIR)/libwebpencode_la-filter_enc.Plo
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='filter_enc.c' object='libwebpencode_la-filter_enc.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libwebpencode_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o libwebpencode_la-filter.lo `test -f 'filter.c' || echo '$(srcdir)/'`filter.c
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libwebpencode_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o libwebpencode_la-filter_enc.lo `test -f 'filter_enc.c' || echo '$(srcdir)/'`filter_enc.c
 
-libwebpencode_la-frame.lo: frame.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libwebpencode_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT libwebpencode_la-frame.lo -MD -MP -MF $(DEPDIR)/libwebpencode_la-frame.Tpo -c -o libwebpencode_la-frame.lo `test -f 'frame.c' || echo '$(srcdir)/'`frame.c
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libwebpencode_la-frame.Tpo $(DEPDIR)/libwebpencode_la-frame.Plo
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='frame.c' object='libwebpencode_la-frame.lo' libtool=yes @AMDEPBACKSLASH@
+libwebpencode_la-frame_enc.lo: frame_enc.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libwebpencode_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT libwebpencode_la-frame_enc.lo -MD -MP -MF $(DEPDIR)/libwebpencode_la-frame_enc.Tpo -c -o libwebpencode_la-frame_enc.lo `test -f 'frame_enc.c' || echo '$(srcdir)/'`frame_enc.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libwebpencode_la-frame_enc.Tpo $(DEPDIR)/libwebpencode_la-frame_enc.Plo
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='frame_enc.c' object='libwebpencode_la-frame_enc.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libwebpencode_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o libwebpencode_la-frame.lo `test -f 'frame.c' || echo '$(srcdir)/'`frame.c
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libwebpencode_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o libwebpencode_la-frame_enc.lo `test -f 'frame_enc.c' || echo '$(srcdir)/'`frame_enc.c
 
-libwebpencode_la-histogram.lo: histogram.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libwebpencode_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT libwebpencode_la-histogram.lo -MD -MP -MF $(DEPDIR)/libwebpencode_la-histogram.Tpo -c -o libwebpencode_la-histogram.lo `test -f 'histogram.c' || echo '$(srcdir)/'`histogram.c
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libwebpencode_la-histogram.Tpo $(DEPDIR)/libwebpencode_la-histogram.Plo
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='histogram.c' object='libwebpencode_la-histogram.lo' libtool=yes @AMDEPBACKSLASH@
+libwebpencode_la-histogram_enc.lo: histogram_enc.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libwebpencode_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT libwebpencode_la-histogram_enc.lo -MD -MP -MF $(DEPDIR)/libwebpencode_la-histogram_enc.Tpo -c -o libwebpencode_la-histogram_enc.lo `test -f 'histogram_enc.c' || echo '$(srcdir)/'`histogram_enc.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libwebpencode_la-histogram_enc.Tpo $(DEPDIR)/libwebpencode_la-histogram_enc.Plo
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='histogram_enc.c' object='libwebpencode_la-histogram_enc.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libwebpencode_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o libwebpencode_la-histogram.lo `test -f 'histogram.c' || echo '$(srcdir)/'`histogram.c
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libwebpencode_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o libwebpencode_la-histogram_enc.lo `test -f 'histogram_enc.c' || echo '$(srcdir)/'`histogram_enc.c
 
-libwebpencode_la-iterator.lo: iterator.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libwebpencode_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT libwebpencode_la-iterator.lo -MD -MP -MF $(DEPDIR)/libwebpencode_la-iterator.Tpo -c -o libwebpencode_la-iterator.lo `test -f 'iterator.c' || echo '$(srcdir)/'`iterator.c
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libwebpencode_la-iterator.Tpo $(DEPDIR)/libwebpencode_la-iterator.Plo
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='iterator.c' object='libwebpencode_la-iterator.lo' libtool=yes @AMDEPBACKSLASH@
+libwebpencode_la-iterator_enc.lo: iterator_enc.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libwebpencode_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT libwebpencode_la-iterator_enc.lo -MD -MP -MF $(DEPDIR)/libwebpencode_la-iterator_enc.Tpo -c -o libwebpencode_la-iterator_enc.lo `test -f 'iterator_enc.c' || echo '$(srcdir)/'`iterator_enc.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libwebpencode_la-iterator_enc.Tpo $(DEPDIR)/libwebpencode_la-iterator_enc.Plo
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='iterator_enc.c' object='libwebpencode_la-iterator_enc.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libwebpencode_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o libwebpencode_la-iterator.lo `test -f 'iterator.c' || echo '$(srcdir)/'`iterator.c
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libwebpencode_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o libwebpencode_la-iterator_enc.lo `test -f 'iterator_enc.c' || echo '$(srcdir)/'`iterator_enc.c
 
-libwebpencode_la-near_lossless.lo: near_lossless.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libwebpencode_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT libwebpencode_la-near_lossless.lo -MD -MP -MF $(DEPDIR)/libwebpencode_la-near_lossless.Tpo -c -o libwebpencode_la-near_lossless.lo `test -f 'near_lossless.c' || echo '$(srcdir)/'`near_lossless.c
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libwebpencode_la-near_lossless.Tpo $(DEPDIR)/libwebpencode_la-near_lossless.Plo
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='near_lossless.c' object='libwebpencode_la-near_lossless.lo' libtool=yes @AMDEPBACKSLASH@
+libwebpencode_la-near_lossless_enc.lo: near_lossless_enc.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libwebpencode_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT libwebpencode_la-near_lossless_enc.lo -MD -MP -MF $(DEPDIR)/libwebpencode_la-near_lossless_enc.Tpo -c -o libwebpencode_la-near_lossless_enc.lo `test -f 'near_lossless_enc.c' || echo '$(srcdir)/'`near_lossless_enc.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libwebpencode_la-near_lossless_enc.Tpo $(DEPDIR)/libwebpencode_la-near_lossless_enc.Plo
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='near_lossless_enc.c' object='libwebpencode_la-near_lossless_enc.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libwebpencode_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o libwebpencode_la-near_lossless.lo `test -f 'near_lossless.c' || echo '$(srcdir)/'`near_lossless.c
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libwebpencode_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o libwebpencode_la-near_lossless_enc.lo `test -f 'near_lossless_enc.c' || echo '$(srcdir)/'`near_lossless_enc.c
 
-libwebpencode_la-picture.lo: picture.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libwebpencode_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT libwebpencode_la-picture.lo -MD -MP -MF $(DEPDIR)/libwebpencode_la-picture.Tpo -c -o libwebpencode_la-picture.lo `test -f 'picture.c' || echo '$(srcdir)/'`picture.c
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libwebpencode_la-picture.Tpo $(DEPDIR)/libwebpencode_la-picture.Plo
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='picture.c' object='libwebpencode_la-picture.lo' libtool=yes @AMDEPBACKSLASH@
+libwebpencode_la-picture_enc.lo: picture_enc.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libwebpencode_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT libwebpencode_la-picture_enc.lo -MD -MP -MF $(DEPDIR)/libwebpencode_la-picture_enc.Tpo -c -o libwebpencode_la-picture_enc.lo `test -f 'picture_enc.c' || echo '$(srcdir)/'`picture_enc.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libwebpencode_la-picture_enc.Tpo $(DEPDIR)/libwebpencode_la-picture_enc.Plo
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='picture_enc.c' object='libwebpencode_la-picture_enc.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libwebpencode_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o libwebpencode_la-picture.lo `test -f 'picture.c' || echo '$(srcdir)/'`picture.c
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libwebpencode_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o libwebpencode_la-picture_enc.lo `test -f 'picture_enc.c' || echo '$(srcdir)/'`picture_enc.c
 
-libwebpencode_la-picture_csp.lo: picture_csp.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libwebpencode_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT libwebpencode_la-picture_csp.lo -MD -MP -MF $(DEPDIR)/libwebpencode_la-picture_csp.Tpo -c -o libwebpencode_la-picture_csp.lo `test -f 'picture_csp.c' || echo '$(srcdir)/'`picture_csp.c
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libwebpencode_la-picture_csp.Tpo $(DEPDIR)/libwebpencode_la-picture_csp.Plo
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='picture_csp.c' object='libwebpencode_la-picture_csp.lo' libtool=yes @AMDEPBACKSLASH@
+libwebpencode_la-picture_csp_enc.lo: picture_csp_enc.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libwebpencode_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT libwebpencode_la-picture_csp_enc.lo -MD -MP -MF $(DEPDIR)/libwebpencode_la-picture_csp_enc.Tpo -c -o libwebpencode_la-picture_csp_enc.lo `test -f 'picture_csp_enc.c' || echo '$(srcdir)/'`picture_csp_enc.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libwebpencode_la-picture_csp_enc.Tpo $(DEPDIR)/libwebpencode_la-picture_csp_enc.Plo
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='picture_csp_enc.c' object='libwebpencode_la-picture_csp_enc.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libwebpencode_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o libwebpencode_la-picture_csp.lo `test -f 'picture_csp.c' || echo '$(srcdir)/'`picture_csp.c
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libwebpencode_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o libwebpencode_la-picture_csp_enc.lo `test -f 'picture_csp_enc.c' || echo '$(srcdir)/'`picture_csp_enc.c
 
-libwebpencode_la-picture_psnr.lo: picture_psnr.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libwebpencode_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT libwebpencode_la-picture_psnr.lo -MD -MP -MF $(DEPDIR)/libwebpencode_la-picture_psnr.Tpo -c -o libwebpencode_la-picture_psnr.lo `test -f 'picture_psnr.c' || echo '$(srcdir)/'`picture_psnr.c
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libwebpencode_la-picture_psnr.Tpo $(DEPDIR)/libwebpencode_la-picture_psnr.Plo
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='picture_psnr.c' object='libwebpencode_la-picture_psnr.lo' libtool=yes @AMDEPBACKSLASH@
+libwebpencode_la-picture_psnr_enc.lo: picture_psnr_enc.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libwebpencode_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT libwebpencode_la-picture_psnr_enc.lo -MD -MP -MF $(DEPDIR)/libwebpencode_la-picture_psnr_enc.Tpo -c -o libwebpencode_la-picture_psnr_enc.lo `test -f 'picture_psnr_enc.c' || echo '$(srcdir)/'`picture_psnr_enc.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libwebpencode_la-picture_psnr_enc.Tpo $(DEPDIR)/libwebpencode_la-picture_psnr_enc.Plo
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='picture_psnr_enc.c' object='libwebpencode_la-picture_psnr_enc.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libwebpencode_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o libwebpencode_la-picture_psnr.lo `test -f 'picture_psnr.c' || echo '$(srcdir)/'`picture_psnr.c
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libwebpencode_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o libwebpencode_la-picture_psnr_enc.lo `test -f 'picture_psnr_enc.c' || echo '$(srcdir)/'`picture_psnr_enc.c
 
-libwebpencode_la-picture_rescale.lo: picture_rescale.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libwebpencode_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT libwebpencode_la-picture_rescale.lo -MD -MP -MF $(DEPDIR)/libwebpencode_la-picture_rescale.Tpo -c -o libwebpencode_la-picture_rescale.lo `test -f 'picture_rescale.c' || echo '$(srcdir)/'`picture_rescale.c
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libwebpencode_la-picture_rescale.Tpo $(DEPDIR)/libwebpencode_la-picture_rescale.Plo
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='picture_rescale.c' object='libwebpencode_la-picture_rescale.lo' libtool=yes @AMDEPBACKSLASH@
+libwebpencode_la-picture_rescale_enc.lo: picture_rescale_enc.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libwebpencode_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT libwebpencode_la-picture_rescale_enc.lo -MD -MP -MF $(DEPDIR)/libwebpencode_la-picture_rescale_enc.Tpo -c -o libwebpencode_la-picture_rescale_enc.lo `test -f 'picture_rescale_enc.c' || echo '$(srcdir)/'`picture_rescale_enc.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libwebpencode_la-picture_rescale_enc.Tpo $(DEPDIR)/libwebpencode_la-picture_rescale_enc.Plo
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='picture_rescale_enc.c' object='libwebpencode_la-picture_rescale_enc.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libwebpencode_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o libwebpencode_la-picture_rescale.lo `test -f 'picture_rescale.c' || echo '$(srcdir)/'`picture_rescale.c
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libwebpencode_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o libwebpencode_la-picture_rescale_enc.lo `test -f 'picture_rescale_enc.c' || echo '$(srcdir)/'`picture_rescale_enc.c
 
-libwebpencode_la-picture_tools.lo: picture_tools.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libwebpencode_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT libwebpencode_la-picture_tools.lo -MD -MP -MF $(DEPDIR)/libwebpencode_la-picture_tools.Tpo -c -o libwebpencode_la-picture_tools.lo `test -f 'picture_tools.c' || echo '$(srcdir)/'`picture_tools.c
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libwebpencode_la-picture_tools.Tpo $(DEPDIR)/libwebpencode_la-picture_tools.Plo
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='picture_tools.c' object='libwebpencode_la-picture_tools.lo' libtool=yes @AMDEPBACKSLASH@
+libwebpencode_la-picture_tools_enc.lo: picture_tools_enc.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libwebpencode_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT libwebpencode_la-picture_tools_enc.lo -MD -MP -MF $(DEPDIR)/libwebpencode_la-picture_tools_enc.Tpo -c -o libwebpencode_la-picture_tools_enc.lo `test -f 'picture_tools_enc.c' || echo '$(srcdir)/'`picture_tools_enc.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libwebpencode_la-picture_tools_enc.Tpo $(DEPDIR)/libwebpencode_la-picture_tools_enc.Plo
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='picture_tools_enc.c' object='libwebpencode_la-picture_tools_enc.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libwebpencode_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o libwebpencode_la-picture_tools.lo `test -f 'picture_tools.c' || echo '$(srcdir)/'`picture_tools.c
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libwebpencode_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o libwebpencode_la-picture_tools_enc.lo `test -f 'picture_tools_enc.c' || echo '$(srcdir)/'`picture_tools_enc.c
 
-libwebpencode_la-quant.lo: quant.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libwebpencode_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT libwebpencode_la-quant.lo -MD -MP -MF $(DEPDIR)/libwebpencode_la-quant.Tpo -c -o libwebpencode_la-quant.lo `test -f 'quant.c' || echo '$(srcdir)/'`quant.c
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libwebpencode_la-quant.Tpo $(DEPDIR)/libwebpencode_la-quant.Plo
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='quant.c' object='libwebpencode_la-quant.lo' libtool=yes @AMDEPBACKSLASH@
+libwebpencode_la-predictor_enc.lo: predictor_enc.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libwebpencode_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT libwebpencode_la-predictor_enc.lo -MD -MP -MF $(DEPDIR)/libwebpencode_la-predictor_enc.Tpo -c -o libwebpencode_la-predictor_enc.lo `test -f 'predictor_enc.c' || echo '$(srcdir)/'`predictor_enc.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libwebpencode_la-predictor_enc.Tpo $(DEPDIR)/libwebpencode_la-predictor_enc.Plo
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='predictor_enc.c' object='libwebpencode_la-predictor_enc.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libwebpencode_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o libwebpencode_la-quant.lo `test -f 'quant.c' || echo '$(srcdir)/'`quant.c
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libwebpencode_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o libwebpencode_la-predictor_enc.lo `test -f 'predictor_enc.c' || echo '$(srcdir)/'`predictor_enc.c
 
-libwebpencode_la-syntax.lo: syntax.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libwebpencode_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT libwebpencode_la-syntax.lo -MD -MP -MF $(DEPDIR)/libwebpencode_la-syntax.Tpo -c -o libwebpencode_la-syntax.lo `test -f 'syntax.c' || echo '$(srcdir)/'`syntax.c
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libwebpencode_la-syntax.Tpo $(DEPDIR)/libwebpencode_la-syntax.Plo
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='syntax.c' object='libwebpencode_la-syntax.lo' libtool=yes @AMDEPBACKSLASH@
+libwebpencode_la-quant_enc.lo: quant_enc.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libwebpencode_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT libwebpencode_la-quant_enc.lo -MD -MP -MF $(DEPDIR)/libwebpencode_la-quant_enc.Tpo -c -o libwebpencode_la-quant_enc.lo `test -f 'quant_enc.c' || echo '$(srcdir)/'`quant_enc.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libwebpencode_la-quant_enc.Tpo $(DEPDIR)/libwebpencode_la-quant_enc.Plo
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='quant_enc.c' object='libwebpencode_la-quant_enc.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libwebpencode_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o libwebpencode_la-syntax.lo `test -f 'syntax.c' || echo '$(srcdir)/'`syntax.c
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libwebpencode_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o libwebpencode_la-quant_enc.lo `test -f 'quant_enc.c' || echo '$(srcdir)/'`quant_enc.c
 
-libwebpencode_la-token.lo: token.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libwebpencode_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT libwebpencode_la-token.lo -MD -MP -MF $(DEPDIR)/libwebpencode_la-token.Tpo -c -o libwebpencode_la-token.lo `test -f 'token.c' || echo '$(srcdir)/'`token.c
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libwebpencode_la-token.Tpo $(DEPDIR)/libwebpencode_la-token.Plo
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='token.c' object='libwebpencode_la-token.lo' libtool=yes @AMDEPBACKSLASH@
+libwebpencode_la-syntax_enc.lo: syntax_enc.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libwebpencode_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT libwebpencode_la-syntax_enc.lo -MD -MP -MF $(DEPDIR)/libwebpencode_la-syntax_enc.Tpo -c -o libwebpencode_la-syntax_enc.lo `test -f 'syntax_enc.c' || echo '$(srcdir)/'`syntax_enc.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libwebpencode_la-syntax_enc.Tpo $(DEPDIR)/libwebpencode_la-syntax_enc.Plo
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='syntax_enc.c' object='libwebpencode_la-syntax_enc.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libwebpencode_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o libwebpencode_la-token.lo `test -f 'token.c' || echo '$(srcdir)/'`token.c
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libwebpencode_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o libwebpencode_la-syntax_enc.lo `test -f 'syntax_enc.c' || echo '$(srcdir)/'`syntax_enc.c
 
-libwebpencode_la-tree.lo: tree.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libwebpencode_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT libwebpencode_la-tree.lo -MD -MP -MF $(DEPDIR)/libwebpencode_la-tree.Tpo -c -o libwebpencode_la-tree.lo `test -f 'tree.c' || echo '$(srcdir)/'`tree.c
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libwebpencode_la-tree.Tpo $(DEPDIR)/libwebpencode_la-tree.Plo
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='tree.c' object='libwebpencode_la-tree.lo' libtool=yes @AMDEPBACKSLASH@
+libwebpencode_la-token_enc.lo: token_enc.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libwebpencode_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT libwebpencode_la-token_enc.lo -MD -MP -MF $(DEPDIR)/libwebpencode_la-token_enc.Tpo -c -o libwebpencode_la-token_enc.lo `test -f 'token_enc.c' || echo '$(srcdir)/'`token_enc.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libwebpencode_la-token_enc.Tpo $(DEPDIR)/libwebpencode_la-token_enc.Plo
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='token_enc.c' object='libwebpencode_la-token_enc.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libwebpencode_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o libwebpencode_la-tree.lo `test -f 'tree.c' || echo '$(srcdir)/'`tree.c
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libwebpencode_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o libwebpencode_la-token_enc.lo `test -f 'token_enc.c' || echo '$(srcdir)/'`token_enc.c
 
-libwebpencode_la-vp8l.lo: vp8l.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libwebpencode_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT libwebpencode_la-vp8l.lo -MD -MP -MF $(DEPDIR)/libwebpencode_la-vp8l.Tpo -c -o libwebpencode_la-vp8l.lo `test -f 'vp8l.c' || echo '$(srcdir)/'`vp8l.c
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libwebpencode_la-vp8l.Tpo $(DEPDIR)/libwebpencode_la-vp8l.Plo
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='vp8l.c' object='libwebpencode_la-vp8l.lo' libtool=yes @AMDEPBACKSLASH@
+libwebpencode_la-tree_enc.lo: tree_enc.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libwebpencode_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT libwebpencode_la-tree_enc.lo -MD -MP -MF $(DEPDIR)/libwebpencode_la-tree_enc.Tpo -c -o libwebpencode_la-tree_enc.lo `test -f 'tree_enc.c' || echo '$(srcdir)/'`tree_enc.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libwebpencode_la-tree_enc.Tpo $(DEPDIR)/libwebpencode_la-tree_enc.Plo
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='tree_enc.c' object='libwebpencode_la-tree_enc.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libwebpencode_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o libwebpencode_la-vp8l.lo `test -f 'vp8l.c' || echo '$(srcdir)/'`vp8l.c
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libwebpencode_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o libwebpencode_la-tree_enc.lo `test -f 'tree_enc.c' || echo '$(srcdir)/'`tree_enc.c
 
-libwebpencode_la-webpenc.lo: webpenc.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libwebpencode_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT libwebpencode_la-webpenc.lo -MD -MP -MF $(DEPDIR)/libwebpencode_la-webpenc.Tpo -c -o libwebpencode_la-webpenc.lo `test -f 'webpenc.c' || echo '$(srcdir)/'`webpenc.c
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libwebpencode_la-webpenc.Tpo $(DEPDIR)/libwebpencode_la-webpenc.Plo
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='webpenc.c' object='libwebpencode_la-webpenc.lo' libtool=yes @AMDEPBACKSLASH@
+libwebpencode_la-vp8l_enc.lo: vp8l_enc.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libwebpencode_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT libwebpencode_la-vp8l_enc.lo -MD -MP -MF $(DEPDIR)/libwebpencode_la-vp8l_enc.Tpo -c -o libwebpencode_la-vp8l_enc.lo `test -f 'vp8l_enc.c' || echo '$(srcdir)/'`vp8l_enc.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libwebpencode_la-vp8l_enc.Tpo $(DEPDIR)/libwebpencode_la-vp8l_enc.Plo
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='vp8l_enc.c' object='libwebpencode_la-vp8l_enc.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libwebpencode_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o libwebpencode_la-webpenc.lo `test -f 'webpenc.c' || echo '$(srcdir)/'`webpenc.c
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libwebpencode_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o libwebpencode_la-vp8l_enc.lo `test -f 'vp8l_enc.c' || echo '$(srcdir)/'`vp8l_enc.c
+
+libwebpencode_la-webp_enc.lo: webp_enc.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libwebpencode_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT libwebpencode_la-webp_enc.lo -MD -MP -MF $(DEPDIR)/libwebpencode_la-webp_enc.Tpo -c -o libwebpencode_la-webp_enc.lo `test -f 'webp_enc.c' || echo '$(srcdir)/'`webp_enc.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libwebpencode_la-webp_enc.Tpo $(DEPDIR)/libwebpencode_la-webp_enc.Plo
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='webp_enc.c' object='libwebpencode_la-webp_enc.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libwebpencode_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o libwebpencode_la-webp_enc.lo `test -f 'webp_enc.c' || echo '$(srcdir)/'`webp_enc.c
 
 mostlyclean-libtool:
 	-rm -f *.lo

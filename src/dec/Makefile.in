@@ -96,12 +96,12 @@ CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
 LTLIBRARIES = $(noinst_LTLIBRARIES)
 libwebpdecode_la_LIBADD =
-am_libwebpdecode_la_OBJECTS = libwebpdecode_la-alpha.lo \
-	libwebpdecode_la-buffer.lo libwebpdecode_la-frame.lo \
-	libwebpdecode_la-idec.lo libwebpdecode_la-io.lo \
-	libwebpdecode_la-quant.lo libwebpdecode_la-tree.lo \
-	libwebpdecode_la-vp8.lo libwebpdecode_la-vp8l.lo \
-	libwebpdecode_la-webp.lo
+am_libwebpdecode_la_OBJECTS = libwebpdecode_la-alpha_dec.lo \
+	libwebpdecode_la-buffer_dec.lo libwebpdecode_la-frame_dec.lo \
+	libwebpdecode_la-idec_dec.lo libwebpdecode_la-io_dec.lo \
+	libwebpdecode_la-quant_dec.lo libwebpdecode_la-tree_dec.lo \
+	libwebpdecode_la-vp8_dec.lo libwebpdecode_la-vp8l_dec.lo \
+	libwebpdecode_la-webp_dec.lo
 libwebpdecode_la_OBJECTS = $(am_libwebpdecode_la_OBJECTS)
 AM_V_lt = $(am__v_lt_@AM_V@)
 am__v_lt_ = $(am__v_lt_@AM_DEFAULT_V@)
@@ -336,9 +336,10 @@ top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 noinst_LTLIBRARIES = libwebpdecode.la
-libwebpdecode_la_SOURCES = alpha.c alphai.h buffer.c common.h \
-	decode_vp8.h frame.c idec.c io.c quant.c tree.c vp8.c vp8i.h \
-	vp8l.c vp8li.h webp.c webpi.h
+libwebpdecode_la_SOURCES = alpha_dec.c alphai_dec.h buffer_dec.c \
+	common_dec.h vp8_dec.h frame_dec.c idec_dec.c io_dec.c \
+	quant_dec.c tree_dec.c vp8_dec.c vp8i_dec.h vp8l_dec.c \
+	vp8li_dec.h webp_dec.c webpi_dec.h
 libwebpdecodeinclude_HEADERS = ../webp/decode.h ../webp/types.h
 noinst_HEADERS = ../webp/format_constants.h
 libwebpdecode_la_CPPFLAGS = $(AM_CPPFLAGS) $(USE_EXPERIMENTAL_CODE)
@@ -398,16 +399,16 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libwebpdecode_la-alpha.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libwebpdecode_la-buffer.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libwebpdecode_la-frame.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libwebpdecode_la-idec.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libwebpdecode_la-io.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libwebpdecode_la-quant.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libwebpdecode_la-tree.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libwebpdecode_la-vp8.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libwebpdecode_la-vp8l.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libwebpdecode_la-webp.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libwebpdecode_la-alpha_dec.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libwebpdecode_la-buffer_dec.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libwebpdecode_la-frame_dec.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libwebpdecode_la-idec_dec.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libwebpdecode_la-io_dec.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libwebpdecode_la-quant_dec.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libwebpdecode_la-tree_dec.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libwebpdecode_la-vp8_dec.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libwebpdecode_la-vp8l_dec.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libwebpdecode_la-webp_dec.Plo@am__quote@
 
 .c.o:
 @am__fastdepCC_TRUE@	$(AM_V_CC)depbase=`echo $@ | sed 's|[^/]*$$|$(DEPDIR)/&|;s|\.o$$||'`;\
@@ -433,75 +434,75 @@ distclean-compile:
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LTCOMPILE) -c -o $@ $<
 
-libwebpdecode_la-alpha.lo: alpha.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libwebpdecode_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT libwebpdecode_la-alpha.lo -MD -MP -MF $(DEPDIR)/libwebpdecode_la-alpha.Tpo -c -o libwebpdecode_la-alpha.lo `test -f 'alpha.c' || echo '$(srcdir)/'`alpha.c
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libwebpdecode_la-alpha.Tpo $(DEPDIR)/libwebpdecode_la-alpha.Plo
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='alpha.c' object='libwebpdecode_la-alpha.lo' libtool=yes @AMDEPBACKSLASH@
+libwebpdecode_la-alpha_dec.lo: alpha_dec.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libwebpdecode_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT libwebpdecode_la-alpha_dec.lo -MD -MP -MF $(DEPDIR)/libwebpdecode_la-alpha_dec.Tpo -c -o libwebpdecode_la-alpha_dec.lo `test -f 'alpha_dec.c' || echo '$(srcdir)/'`alpha_dec.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libwebpdecode_la-alpha_dec.Tpo $(DEPDIR)/libwebpdecode_la-alpha_dec.Plo
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='alpha_dec.c' object='libwebpdecode_la-alpha_dec.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libwebpdecode_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o libwebpdecode_la-alpha.lo `test -f 'alpha.c' || echo '$(srcdir)/'`alpha.c
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libwebpdecode_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o libwebpdecode_la-alpha_dec.lo `test -f 'alpha_dec.c' || echo '$(srcdir)/'`alpha_dec.c
 
-libwebpdecode_la-buffer.lo: buffer.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libwebpdecode_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT libwebpdecode_la-buffer.lo -MD -MP -MF $(DEPDIR)/libwebpdecode_la-buffer.Tpo -c -o libwebpdecode_la-buffer.lo `test -f 'buffer.c' || echo '$(srcdir)/'`buffer.c
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libwebpdecode_la-buffer.Tpo $(DEPDIR)/libwebpdecode_la-buffer.Plo
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='buffer.c' object='libwebpdecode_la-buffer.lo' libtool=yes @AMDEPBACKSLASH@
+libwebpdecode_la-buffer_dec.lo: buffer_dec.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libwebpdecode_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT libwebpdecode_la-buffer_dec.lo -MD -MP -MF $(DEPDIR)/libwebpdecode_la-buffer_dec.Tpo -c -o libwebpdecode_la-buffer_dec.lo `test -f 'buffer_dec.c' || echo '$(srcdir)/'`buffer_dec.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libwebpdecode_la-buffer_dec.Tpo $(DEPDIR)/libwebpdecode_la-buffer_dec.Plo
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='buffer_dec.c' object='libwebpdecode_la-buffer_dec.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libwebpdecode_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o libwebpdecode_la-buffer.lo `test -f 'buffer.c' || echo '$(srcdir)/'`buffer.c
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libwebpdecode_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o libwebpdecode_la-buffer_dec.lo `test -f 'buffer_dec.c' || echo '$(srcdir)/'`buffer_dec.c
 
-libwebpdecode_la-frame.lo: frame.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libwebpdecode_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT libwebpdecode_la-frame.lo -MD -MP -MF $(DEPDIR)/libwebpdecode_la-frame.Tpo -c -o libwebpdecode_la-frame.lo `test -f 'frame.c' || echo '$(srcdir)/'`frame.c
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libwebpdecode_la-frame.Tpo $(DEPDIR)/libwebpdecode_la-frame.Plo
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='frame.c' object='libwebpdecode_la-frame.lo' libtool=yes @AMDEPBACKSLASH@
+libwebpdecode_la-frame_dec.lo: frame_dec.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libwebpdecode_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT libwebpdecode_la-frame_dec.lo -MD -MP -MF $(DEPDIR)/libwebpdecode_la-frame_dec.Tpo -c -o libwebpdecode_la-frame_dec.lo `test -f 'frame_dec.c' || echo '$(srcdir)/'`frame_dec.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libwebpdecode_la-frame_dec.Tpo $(DEPDIR)/libwebpdecode_la-frame_dec.Plo
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='frame_dec.c' object='libwebpdecode_la-frame_dec.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libwebpdecode_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o libwebpdecode_la-frame.lo `test -f 'frame.c' || echo '$(srcdir)/'`frame.c
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libwebpdecode_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o libwebpdecode_la-frame_dec.lo `test -f 'frame_dec.c' || echo '$(srcdir)/'`frame_dec.c
 
-libwebpdecode_la-idec.lo: idec.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libwebpdecode_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT libwebpdecode_la-idec.lo -MD -MP -MF $(DEPDIR)/libwebpdecode_la-idec.Tpo -c -o libwebpdecode_la-idec.lo `test -f 'idec.c' || echo '$(srcdir)/'`idec.c
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libwebpdecode_la-idec.Tpo $(DEPDIR)/libwebpdecode_la-idec.Plo
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='idec.c' object='libwebpdecode_la-idec.lo' libtool=yes @AMDEPBACKSLASH@
+libwebpdecode_la-idec_dec.lo: idec_dec.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libwebpdecode_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT libwebpdecode_la-idec_dec.lo -MD -MP -MF $(DEPDIR)/libwebpdecode_la-idec_dec.Tpo -c -o libwebpdecode_la-idec_dec.lo `test -f 'idec_dec.c' || echo '$(srcdir)/'`idec_dec.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libwebpdecode_la-idec_dec.Tpo $(DEPDIR)/libwebpdecode_la-idec_dec.Plo
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='idec_dec.c' object='libwebpdecode_la-idec_dec.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libwebpdecode_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o libwebpdecode_la-idec.lo `test -f 'idec.c' || echo '$(srcdir)/'`idec.c
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libwebpdecode_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o libwebpdecode_la-idec_dec.lo `test -f 'idec_dec.c' || echo '$(srcdir)/'`idec_dec.c
 
-libwebpdecode_la-io.lo: io.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libwebpdecode_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT libwebpdecode_la-io.lo -MD -MP -MF $(DEPDIR)/libwebpdecode_la-io.Tpo -c -o libwebpdecode_la-io.lo `test -f 'io.c' || echo '$(srcdir)/'`io.c
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libwebpdecode_la-io.Tpo $(DEPDIR)/libwebpdecode_la-io.Plo
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='io.c' object='libwebpdecode_la-io.lo' libtool=yes @AMDEPBACKSLASH@
+libwebpdecode_la-io_dec.lo: io_dec.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libwebpdecode_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT libwebpdecode_la-io_dec.lo -MD -MP -MF $(DEPDIR)/libwebpdecode_la-io_dec.Tpo -c -o libwebpdecode_la-io_dec.lo `test -f 'io_dec.c' || echo '$(srcdir)/'`io_dec.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libwebpdecode_la-io_dec.Tpo $(DEPDIR)/libwebpdecode_la-io_dec.Plo
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='io_dec.c' object='libwebpdecode_la-io_dec.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libwebpdecode_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o libwebpdecode_la-io.lo `test -f 'io.c' || echo '$(srcdir)/'`io.c
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libwebpdecode_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o libwebpdecode_la-io_dec.lo `test -f 'io_dec.c' || echo '$(srcdir)/'`io_dec.c
 
-libwebpdecode_la-quant.lo: quant.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libwebpdecode_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT libwebpdecode_la-quant.lo -MD -MP -MF $(DEPDIR)/libwebpdecode_la-quant.Tpo -c -o libwebpdecode_la-quant.lo `test -f 'quant.c' || echo '$(srcdir)/'`quant.c
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libwebpdecode_la-quant.Tpo $(DEPDIR)/libwebpdecode_la-quant.Plo
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='quant.c' object='libwebpdecode_la-quant.lo' libtool=yes @AMDEPBACKSLASH@
+libwebpdecode_la-quant_dec.lo: quant_dec.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libwebpdecode_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT libwebpdecode_la-quant_dec.lo -MD -MP -MF $(DEPDIR)/libwebpdecode_la-quant_dec.Tpo -c -o libwebpdecode_la-quant_dec.lo `test -f 'quant_dec.c' || echo '$(srcdir)/'`quant_dec.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libwebpdecode_la-quant_dec.Tpo $(DEPDIR)/libwebpdecode_la-quant_dec.Plo
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='quant_dec.c' object='libwebpdecode_la-quant_dec.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libwebpdecode_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o libwebpdecode_la-quant.lo `test -f 'quant.c' || echo '$(srcdir)/'`quant.c
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libwebpdecode_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o libwebpdecode_la-quant_dec.lo `test -f 'quant_dec.c' || echo '$(srcdir)/'`quant_dec.c
 
-libwebpdecode_la-tree.lo: tree.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libwebpdecode_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT libwebpdecode_la-tree.lo -MD -MP -MF $(DEPDIR)/libwebpdecode_la-tree.Tpo -c -o libwebpdecode_la-tree.lo `test -f 'tree.c' || echo '$(srcdir)/'`tree.c
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libwebpdecode_la-tree.Tpo $(DEPDIR)/libwebpdecode_la-tree.Plo
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='tree.c' object='libwebpdecode_la-tree.lo' libtool=yes @AMDEPBACKSLASH@
+libwebpdecode_la-tree_dec.lo: tree_dec.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libwebpdecode_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT libwebpdecode_la-tree_dec.lo -MD -MP -MF $(DEPDIR)/libwebpdecode_la-tree_dec.Tpo -c -o libwebpdecode_la-tree_dec.lo `test -f 'tree_dec.c' || echo '$(srcdir)/'`tree_dec.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libwebpdecode_la-tree_dec.Tpo $(DEPDIR)/libwebpdecode_la-tree_dec.Plo
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='tree_dec.c' object='libwebpdecode_la-tree_dec.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libwebpdecode_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o libwebpdecode_la-tree.lo `test -f 'tree.c' || echo '$(srcdir)/'`tree.c
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libwebpdecode_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o libwebpdecode_la-tree_dec.lo `test -f 'tree_dec.c' || echo '$(srcdir)/'`tree_dec.c
 
-libwebpdecode_la-vp8.lo: vp8.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libwebpdecode_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT libwebpdecode_la-vp8.lo -MD -MP -MF $(DEPDIR)/libwebpdecode_la-vp8.Tpo -c -o libwebpdecode_la-vp8.lo `test -f 'vp8.c' || echo '$(srcdir)/'`vp8.c
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libwebpdecode_la-vp8.Tpo $(DEPDIR)/libwebpdecode_la-vp8.Plo
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='vp8.c' object='libwebpdecode_la-vp8.lo' libtool=yes @AMDEPBACKSLASH@
+libwebpdecode_la-vp8_dec.lo: vp8_dec.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libwebpdecode_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT libwebpdecode_la-vp8_dec.lo -MD -MP -MF $(DEPDIR)/libwebpdecode_la-vp8_dec.Tpo -c -o libwebpdecode_la-vp8_dec.lo `test -f 'vp8_dec.c' || echo '$(srcdir)/'`vp8_dec.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libwebpdecode_la-vp8_dec.Tpo $(DEPDIR)/libwebpdecode_la-vp8_dec.Plo
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='vp8_dec.c' object='libwebpdecode_la-vp8_dec.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libwebpdecode_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o libwebpdecode_la-vp8.lo `test -f 'vp8.c' || echo '$(srcdir)/'`vp8.c
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libwebpdecode_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o libwebpdecode_la-vp8_dec.lo `test -f 'vp8_dec.c' || echo '$(srcdir)/'`vp8_dec.c
 
-libwebpdecode_la-vp8l.lo: vp8l.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libwebpdecode_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT libwebpdecode_la-vp8l.lo -MD -MP -MF $(DEPDIR)/libwebpdecode_la-vp8l.Tpo -c -o libwebpdecode_la-vp8l.lo `test -f 'vp8l.c' || echo '$(srcdir)/'`vp8l.c
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libwebpdecode_la-vp8l.Tpo $(DEPDIR)/libwebpdecode_la-vp8l.Plo
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='vp8l.c' object='libwebpdecode_la-vp8l.lo' libtool=yes @AMDEPBACKSLASH@
+libwebpdecode_la-vp8l_dec.lo: vp8l_dec.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libwebpdecode_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT libwebpdecode_la-vp8l_dec.lo -MD -MP -MF $(DEPDIR)/libwebpdecode_la-vp8l_dec.Tpo -c -o libwebpdecode_la-vp8l_dec.lo `test -f 'vp8l_dec.c' || echo '$(srcdir)/'`vp8l_dec.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libwebpdecode_la-vp8l_dec.Tpo $(DEPDIR)/libwebpdecode_la-vp8l_dec.Plo
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='vp8l_dec.c' object='libwebpdecode_la-vp8l_dec.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libwebpdecode_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o libwebpdecode_la-vp8l.lo `test -f 'vp8l.c' || echo '$(srcdir)/'`vp8l.c
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libwebpdecode_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o libwebpdecode_la-vp8l_dec.lo `test -f 'vp8l_dec.c' || echo '$(srcdir)/'`vp8l_dec.c
 
-libwebpdecode_la-webp.lo: webp.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libwebpdecode_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT libwebpdecode_la-webp.lo -MD -MP -MF $(DEPDIR)/libwebpdecode_la-webp.Tpo -c -o libwebpdecode_la-webp.lo `test -f 'webp.c' || echo '$(srcdir)/'`webp.c
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libwebpdecode_la-webp.Tpo $(DEPDIR)/libwebpdecode_la-webp.Plo
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='webp.c' object='libwebpdecode_la-webp.lo' libtool=yes @AMDEPBACKSLASH@
+libwebpdecode_la-webp_dec.lo: webp_dec.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libwebpdecode_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT libwebpdecode_la-webp_dec.lo -MD -MP -MF $(DEPDIR)/libwebpdecode_la-webp_dec.Tpo -c -o libwebpdecode_la-webp_dec.lo `test -f 'webp_dec.c' || echo '$(srcdir)/'`webp_dec.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libwebpdecode_la-webp_dec.Tpo $(DEPDIR)/libwebpdecode_la-webp_dec.Plo
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='webp_dec.c' object='libwebpdecode_la-webp_dec.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libwebpdecode_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o libwebpdecode_la-webp.lo `test -f 'webp.c' || echo '$(srcdir)/'`webp.c
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libwebpdecode_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o libwebpdecode_la-webp_dec.lo `test -f 'webp_dec.c' || echo '$(srcdir)/'`webp_dec.c
 
 mostlyclean-libtool:
 	-rm -f *.lo
