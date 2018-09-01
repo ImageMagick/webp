@@ -41,14 +41,12 @@ typedef long long int int64_t;
 #endif
 #if defined(_WEBPDLL_)
 #   if defined(_VISUALC_)
-#       pragma warning( disable : 4273 )
+#     pragma warning( disable : 4273 )
 #   endif
 #   if !defined(_WEBPLIB_)
-#       define WEBP_EXTERN(type) extern __declspec(dllimport) type
-#       pragma message( "libwebp compiling as DLL import" )
+#     define WEBP_EXTERN(type) extern __declspec(dllimport) type
 #   else
-#       define WEBP_EXTERN(type) extern __declspec(dllexport) type
-#       pragma message( "libwebp compiling as DLL export" )
+#     define WEBP_EXTERN(type) extern __declspec(dllexport) type
 #   endif
 #endif
 
