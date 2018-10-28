@@ -65,14 +65,49 @@ endif()
 # Find the standard image libraries.
 set(WEBP_DEP_IMG_LIBRARIES)
 set(WEBP_DEP_IMG_INCLUDE_DIRS)
-foreach(I_LIB PNG JPEG TIFF GIF)
+foreach(I_LIB PNG JPEG TIFF)
   find_package(${I_LIB})
   set(WEBP_HAVE_${I_LIB} ${${I_LIB}_FOUND})
   if(${I_LIB}_FOUND)
     list(APPEND WEBP_DEP_IMG_LIBRARIES ${${I_LIB}_LIBRARIES})
-    list(APPEND WEBP_DEP_IMG_INCLUDE_DIRS ${${I_LIB}_INCLUDE_DIRS})
+    list(APPEND WEBP_DEP_IMG_INCLUDE_DIRS
+         ${${I_LIB}_INCLUDE_DIR} ${${I_LIB}_INCLUDE_DIRS})
   endif()
 endforeach()
+if(WEBP_DEP_IMG_INCLUDE_DIRS)
+  list(REMOVE_DUPLICATES WEBP_DEP_IMG_INCLUDE_DIRS)
+endif()
+
+# GIF detection, gifdec isn't part of the imageio lib.
+include(CMakePushCheckState)
+set(WEBP_DEP_GIF_LIBRARIES)
+set(WEBP_DEP_GIF_INCLUDE_DIRS)
+find_package(GIF)
+set(WEBP_HAVE_GIF ${GIF_FOUND})
+if(GIF_FOUND)
+  # GIF find_package only locates the header and library, it doesn't fail
+  # compile tests when detecting the version, but falls back to 3 (as of at
+  # least cmake 3.7.2). Make sure the library links to avoid incorrect
+  # detection when cross compiling.
+  cmake_push_check_state()
+  set(CMAKE_REQUIRED_LIBRARIES ${GIF_LIBRARIES})
+  set(CMAKE_REQUIRED_INCLUDES ${GIF_INCLUDE_DIR})
+  check_c_source_compiles("
+      #include <gif_lib.h>
+      int main(void) {
+        (void)DGifOpenFileHandle;
+        return 0;
+      }
+      " GIF_COMPILES
+  )
+  cmake_pop_check_state()
+  if(GIF_COMPILES)
+    list(APPEND WEBP_DEP_GIF_LIBRARIES ${GIF_LIBRARIES})
+    list(APPEND WEBP_DEP_GIF_INCLUDE_DIRS ${GIF_INCLUDE_DIR})
+  else()
+    unset(GIF_FOUND)
+  endif()
+endif()
 
 ## Check for specific headers.
 include(CheckIncludeFiles)
@@ -129,13 +164,3 @@ strip_bracket(PACKAGE_URL)
 set(PACKAGE_STRING "${PACKAGE_NAME} ${PACKAGE_VERSION}")
 set(PACKAGE_TARNAME ${PACKAGE_NAME})
 set(VERSION ${PACKAGE_VERSION})
-
-## Generate the config.h header.
-configure_file(${CMAKE_CURRENT_LIST_DIR}/config.h.in
-  ${CMAKE_CURRENT_BINARY_DIR}/include/webp/config.h)
-add_definitions(-DHAVE_CONFIG_H)
-# The webp folder is included as we reference config.h as
-# ../webp/config.h or webp/config.h
-include_directories(${CMAKE_CURRENT_BINARY_DIR}/include
-  ${CMAKE_CURRENT_BINARY_DIR}/include/webp
-)

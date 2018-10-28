@@ -23,12 +23,20 @@
 
 #ifdef WEBP_HAVE_GIF
 
+#if defined(HAVE_UNISTD_H) && HAVE_UNISTD_H
+#include <unistd.h>
+#endif
+
 #include <gif_lib.h>
 #include "webp/encode.h"
 #include "webp/mux.h"
 #include "../examples/example_util.h"
 #include "../imageio/imageio_util.h"
 #include "./gifdec.h"
+
+#if !defined(STDIN_FILENO)
+#define STDIN_FILENO 0
+#endif
 
 //------------------------------------------------------------------------------
 
@@ -72,8 +80,10 @@ static void Help(void) {
   printf("  -metadata <string> ..... comma separated list of metadata to\n");
   printf("                           ");
   printf("copy from the input to the output if present\n");
-  printf("                           "
-         "Valid values: all, none, icc, xmp (default)\n");
+  printf("                           ");
+  printf("Valid values: all, none, icc, xmp (default)\n");
+  printf("  -loop_compatibility .... use compatibility mode for Chrome\n");
+  printf("                           version prior to M62 (inclusive)\n");
   printf("  -mt .................... use multi-threading if available\n");
   printf("\n");
   printf("  -version ............... print version number and exit\n");
@@ -104,7 +114,7 @@ int main(int argc, const char *argv[]) {
   WebPAnimEncoderOptions enc_options;
   WebPConfig config;
 
-  int is_first_frame = 1;     // Whether we are processing the first frame.
+  int frame_number = 0;     // Whether we are processing the first frame.
   int done;
   int c;
   int quiet = 0;
@@ -115,8 +125,9 @@ int main(int argc, const char *argv[]) {
   int stored_icc = 0;         // Whether we have already stored an ICC profile.
   WebPData xmp_data;
   int stored_xmp = 0;         // Whether we have already stored an XMP profile.
-  int loop_count = 0;
+  int loop_count = 0;         // default: infinite
   int stored_loop_count = 0;  // Whether we have found an explicit loop count.
+  int loop_compatibility = 0;
   WebPMux* mux = NULL;
 
   int default_kmin = 1;  // Whether to use default kmin value.
@@ -151,6 +162,8 @@ int main(int argc, const char *argv[]) {
     } else if (!strcmp(argv[c], "-mixed")) {
       enc_options.allow_mixed = 1;
       config.lossless = 0;
+    } else if (!strcmp(argv[c], "-loop_compatibility")) {
+      loop_compatibility = 1;
     } else if (!strcmp(argv[c], "-q") && c < argc - 1) {
       config.quality = ExUtilGetFloat(argv[++c], &parse_error);
     } else if (!strcmp(argv[c], "-m") && c < argc - 1) {
@@ -258,9 +271,11 @@ int main(int argc, const char *argv[]) {
 
   // Start the decoder object
 #if LOCAL_GIF_PREREQ(5,0)
-  gif = DGifOpenFileName(in_file, &gif_error);
+  gif = !strcmp(in_file, "-") ? DGifOpenFileHandle(STDIN_FILENO, &gif_error)
+                              : DGifOpenFileName(in_file, &gif_error);
 #else
-  gif = DGifOpenFileName(in_file);
+  gif = !strcmp(in_file, "-") ? DGifOpenFileHandle(STDIN_FILENO)
+                              : DGifOpenFileName(in_file);
 #endif
   if (gif == NULL) goto End;
 
@@ -277,7 +292,7 @@ int main(int argc, const char *argv[]) {
 
         if (!DGifGetImageDesc(gif)) goto End;
 
-        if (is_first_frame) {
+        if (frame_number == 0) {
           if (verbose) {
             printf("Canvas screen: %d x %d\n", gif->SWidth, gif->SHeight);
           }
@@ -319,7 +334,6 @@ int main(int argc, const char *argv[]) {
                     "a memory error.\n");
             goto End;
           }
-          is_first_frame = 0;
         }
 
         // Some even more broken GIF can have sub-rect with zero width/height.
@@ -336,12 +350,24 @@ int main(int argc, const char *argv[]) {
         GIFBlendFrames(&frame, &gif_rect, &curr_canvas);
 
         if (!WebPAnimEncoderAdd(enc, &curr_canvas, frame_timestamp, &config)) {
-          fprintf(stderr, "%s\n", WebPAnimEncoderGetError(enc));
+          fprintf(stderr, "Error while adding frame #%d: %s\n", frame_number,
+                  WebPAnimEncoderGetError(enc));
+          goto End;
+        } else {
+          ++frame_number;
         }
 
         // Update canvases.
         GIFDisposeFrame(orig_dispose, &gif_rect, &prev_canvas, &curr_canvas);
         GIFCopyPixels(&curr_canvas, &prev_canvas);
+
+        // Force frames with a small or no duration to 100ms to be consistent
+        // with web browsers and other transcoding tools. This also avoids
+        // incorrect durations between frames when padding frames are
+        // discarded.
+        if (frame_duration <= 10) {
+          frame_duration = 100;
+        }
 
         // Update timestamp (for next frame).
         frame_timestamp += frame_duration;
@@ -386,7 +412,7 @@ int main(int argc, const char *argv[]) {
               if (verbose) {
                 fprintf(stderr, "Loop count: %d\n", loop_count);
               }
-              stored_loop_count = (loop_count != 0);
+              stored_loop_count = loop_compatibility ? (loop_count != 0) : 1;
             } else {  // An extension containing metadata.
               // We only store the first encountered chunk of each type, and
               // only if requested by the user.
@@ -442,6 +468,23 @@ int main(int argc, const char *argv[]) {
     fprintf(stderr, "%s\n", WebPAnimEncoderGetError(enc));
     goto End;
   }
+
+  if (!loop_compatibility) {
+    if (!stored_loop_count) {
+      // if no loop-count element is seen, the default is '1' (loop-once)
+      // and we need to signal it explicitly in WebP. Note however that
+      // in case there's a single frame, we still don't need to store it.
+      if (frame_number > 1) {
+        stored_loop_count = 1;
+        loop_count = 1;
+      }
+    } else if (loop_count > 0) {
+      // adapt GIF's semantic to WebP's (except in the infinite-loop case)
+      loop_count += 1;
+    }
+  }
+  // loop_count of 0 is the default (infinite), so no need to signal it
+  if (loop_count == 0) stored_loop_count = 0;
 
   if (stored_loop_count || stored_icc || stored_xmp) {
     // Re-mux to add loop count and/or metadata as needed.
@@ -507,8 +550,13 @@ int main(int argc, const char *argv[]) {
       goto End;
     }
     if (!quiet) {
-      fprintf(stderr, "Saved output file (%d bytes): %s\n",
-              (int)webp_data.size, out_file);
+      if (!strcmp(out_file, "-")) {
+        fprintf(stderr, "Saved %d bytes to STDIO\n",
+                (int)webp_data.size);
+      } else {
+        fprintf(stderr, "Saved output file (%d bytes): %s\n",
+                (int)webp_data.size, out_file);
+      }
     }
   } else {
     if (!quiet) {

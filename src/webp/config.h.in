@@ -12,6 +12,9 @@
 /* Set to 1 if __builtin_bswap64 is available */
 #undef HAVE_BUILTIN_BSWAP64
 
+/* Define to 1 if you have the <cpu-features.h> header file. */
+#undef HAVE_CPU_FEATURES_H
+
 /* Define to 1 if you have the <dlfcn.h> header file. */
 #undef HAVE_DLFCN_H
 
@@ -63,8 +66,7 @@
 /* Define to 1 if you have the <windows.h> header file. */
 #undef HAVE_WINDOWS_H
 
-/* Define to the sub-directory in which libtool stores uninstalled libraries.
-   */
+/* Define to the sub-directory where libtool stores uninstalled libraries. */
 #undef LT_OBJDIR
 
 /* Name of package */
@@ -98,9 +100,6 @@
 /* Version number of package */
 #undef VERSION
 
-/* Enable experimental code */
-#undef WEBP_EXPERIMENTAL_FEATURES
-
 /* Set to 1 if AVX2 is supported */
 #undef WEBP_HAVE_AVX2
 
@@ -122,6 +121,9 @@
 /* Set to 1 if PNG library is installed */
 #undef WEBP_HAVE_PNG
 
+/* Set to 1 if SDL library is installed */
+#undef WEBP_HAVE_SDL
+
 /* Set to 1 if SSE2 is supported */
 #undef WEBP_HAVE_SSE2
 
@@ -130,6 +132,9 @@
 
 /* Set to 1 if TIFF library is installed */
 #undef WEBP_HAVE_TIFF
+
+/* Enable near lossless encoding */
+#undef WEBP_NEAR_LOSSLESS
 
 /* Undefine this to disable thread support. */
 #undef WEBP_USE_THREAD

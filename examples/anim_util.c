@@ -16,7 +16,7 @@
 #include <stdio.h>
 #include <string.h>
 
-#ifdef WEBP_HAVE_GIF
+#if defined(WEBP_HAVE_GIF)
 #include <gif_lib.h>
 #endif
 #include "webp/format_constants.h"
@@ -33,11 +33,13 @@ static const int kNumChannels = 4;
 // -----------------------------------------------------------------------------
 // Common utilities.
 
+#if defined(WEBP_HAVE_GIF)
 // Returns true if the frame covers the full canvas.
 static int IsFullFrame(int width, int height,
                        int canvas_width, int canvas_height) {
   return (width == canvas_width && height == canvas_height);
 }
+#endif // WEBP_HAVE_GIF
 
 static int CheckSizeForOverflow(uint64_t size) {
   return (size == (size_t)size);
@@ -85,6 +87,7 @@ void ClearAnimatedImage(AnimatedImage* const image) {
   }
 }
 
+#if defined(WEBP_HAVE_GIF)
 // Clear the canvas to transparent.
 static void ZeroFillCanvas(uint8_t* rgba,
                            uint32_t canvas_width, uint32_t canvas_height) {
@@ -126,6 +129,7 @@ static void CopyFrameRectangle(const uint8_t* src, uint8_t* dst, int stride,
     dst += stride;
   }
 }
+#endif // WEBP_HAVE_GIF
 
 // Canonicalize all transparent pixels to transparent black to aid comparison.
 static void CleanupTransparentPixels(uint32_t* rgba,
@@ -151,6 +155,8 @@ static int DumpFrame(const char filename[], const char dump_folder[],
   char* file_name = NULL;
   FILE* f = NULL;
   const char* row;
+
+  if (dump_folder == NULL) dump_folder = ".";
 
   base_name = strrchr(filename, '/');
   base_name = (base_name == NULL) ? filename : base_name + 1;
@@ -200,7 +206,7 @@ static int IsWebP(const WebPData* const webp_data) {
   return (WebPGetInfo(webp_data->bytes, webp_data->size, NULL, NULL) != 0);
 }
 
-// Read animated WebP bitstream 'file_str' into 'AnimatedImage' struct.
+// Read animated WebP bitstream 'webp_data' into 'AnimatedImage' struct.
 static int ReadAnimatedWebP(const char filename[],
                             const WebPData* const webp_data,
                             AnimatedImage* const image, int dump_frames,
@@ -278,7 +284,7 @@ static int ReadAnimatedWebP(const char filename[],
 // -----------------------------------------------------------------------------
 // GIF Decoding.
 
-#ifdef WEBP_HAVE_GIF
+#if defined(WEBP_HAVE_GIF)
 
 // Returns true if this is a valid GIF bitstream.
 static int IsGIF(const WebPData* const data) {
@@ -423,6 +429,11 @@ static uint32_t GetBackgroundColorGIF(GifFileType* gif) {
 }
 
 // Find appropriate app extension and get loop count from the next extension.
+// We use Chrome's interpretation of the 'loop_count' semantics:
+//   if not present -> loop once
+//   if present and loop_count == 0, return 0 ('infinite').
+//   if present and loop_count != 0, it's the number of *extra* loops
+//     so we need to return loop_count + 1 as total loop number.
 static uint32_t GetLoopCountGIF(const GifFileType* const gif) {
   int i;
   for (i = 0; i < gif->ImageCount; ++i) {
@@ -440,12 +451,13 @@ static uint32_t GetLoopCountGIF(const GifFileType* const gif) {
       if (signature_is_ok &&
           eb2->Function == CONTINUE_EXT_FUNC_CODE && eb2->ByteCount >= 3 &&
           eb2->Bytes[0] == 1) {
-        return ((uint32_t)(eb2->Bytes[2]) << 8) +
-               ((uint32_t)(eb2->Bytes[1]) << 0);
+        const uint32_t extra_loop = ((uint32_t)(eb2->Bytes[2]) << 8) +
+                                    ((uint32_t)(eb2->Bytes[1]) << 0);
+        return (extra_loop > 0) ? extra_loop + 1 : 0;
       }
     }
   }
-  return 0;  // Default.
+  return 1;  // Default.
 }
 
 // Get duration of 'n'th frame in milliseconds.
@@ -581,6 +593,9 @@ static int ReadAnimatedGIF(const char filename[], AnimatedImage* const image,
     curr_frame = &image->frames[i];
     curr_rgba = curr_frame->rgba;
     curr_frame->duration = GetFrameDurationGIF(gif, i);
+    // Force frames with a small or no duration to 100ms to be consistent
+    // with web browsers and other transcoding tools (like gif2webp itself).
+    if (curr_frame->duration <= 10) curr_frame->duration = 100;
 
     if (i == 0) {  // Initialize as transparent.
       curr_frame->is_key_frame = 1;
@@ -770,4 +785,10 @@ void GetDiffAndPSNR(const uint8_t rgba1[], const uint8_t rgba2[],
     sse /= stride * height;
     *psnr = 4.3429448 * log(255. * 255. / sse);
   }
+}
+
+void GetAnimatedImageVersions(int* const decoder_version,
+                              int* const demux_version) {
+  *decoder_version = WebPGetDecoderVersion();
+  *demux_version = WebPGetDemuxVersion();
 }

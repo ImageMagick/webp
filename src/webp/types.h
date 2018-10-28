@@ -36,27 +36,13 @@ typedef long long int int64_t;
 #define WEBP_INLINE __forceinline
 #endif  /* _MSC_VER */
 
-#if defined(_MT) && defined(_DLL) && !defined(_WEBPDLL_) && !defined(_LIB)
-#   define _WEBPDLL_
-#endif
-#if defined(_WEBPDLL_)
-#   if defined(_VISUALC_)
-#     pragma warning( disable : 4273 )
-#   endif
-#   if !defined(_WEBPLIB_)
-#     define WEBP_EXTERN(type) extern __declspec(dllimport) type
-#   else
-#     define WEBP_EXTERN(type) extern __declspec(dllexport) type
-#   endif
-#endif
-
 #ifndef WEBP_EXTERN
 // This explicitly marks library functions and allows for changing the
 // signature for e.g., Windows DLL builds.
 # if defined(__GNUC__) && __GNUC__ >= 4
-#  define WEBP_EXTERN(type) extern __attribute__ ((visibility ("default"))) type
+#  define WEBP_EXTERN extern __attribute__ ((visibility ("default")))
 # else
-#  define WEBP_EXTERN(type) extern type
+#  define WEBP_EXTERN extern
 # endif  /* __GNUC__ >= 4 */
 #endif  /* WEBP_EXTERN */
 
