@@ -36,17 +36,6 @@ typedef long long int int64_t;
 #define WEBP_INLINE __forceinline
 #endif  /* _MSC_VER */
 
-#if defined(_MT) && defined(_DLL) && !defined(_WEBPDLL_) && !defined(_LIB)
-#   define _WEBPDLL_
-#endif
-#if defined(_WEBPDLL_)
-#   if !defined(_WEBPLIB_)
-#     define WEBP_EXTERN extern __declspec(dllimport)
-#   else
-#     define WEBP_EXTERN extern __declspec(dllexport)
-#   endif
-#endif
-
 #ifndef WEBP_EXTERN
 // This explicitly marks library functions and allows for changing the
 // signature for e.g., Windows DLL builds.
@@ -60,4 +49,4 @@ typedef long long int int64_t;
 // Macro to check ABI compatibility (same major revision number)
 #define WEBP_ABI_IS_INCOMPATIBLE(a, b) (((a) >> 8) != ((b) >> 8))
 
-#endif  /* WEBP_WEBP_TYPES_H_ */
+#endif  // WEBP_WEBP_TYPES_H_

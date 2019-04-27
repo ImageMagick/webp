@@ -219,7 +219,6 @@ AR = @AR@
 AUTOCONF = @AUTOCONF@
 AUTOHEADER = @AUTOHEADER@
 AUTOMAKE = @AUTOMAKE@
-AVX2_FLAGS = @AVX2_FLAGS@
 AWK = @AWK@
 CC = @CC@
 CCDEPMODE = @CCDEPMODE@
@@ -358,7 +357,7 @@ libwebpdemuxinclude_HEADERS = ../webp/decode.h ../webp/demux.h \
 	../webp/mux_types.h ../webp/types.h
 noinst_HEADERS = ../webp/format_constants.h
 libwebpdemux_la_LIBADD = ../libwebp.la
-libwebpdemux_la_LDFLAGS = -no-undefined -version-info 2:4:0
+libwebpdemux_la_LDFLAGS = -no-undefined -version-info 2:6:0
 libwebpdemuxincludedir = $(includedir)/webp
 pkgconfig_DATA = libwebpdemux.pc
 all: all-am

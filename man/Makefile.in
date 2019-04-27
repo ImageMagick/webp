@@ -87,10 +87,11 @@ PRE_UNINSTALL = :
 POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
-@WANT_MUX_TRUE@am__append_1 = webpmux.1
+@BUILD_MUX_TRUE@am__append_1 = webpmux.1
 @BUILD_GIF2WEBP_TRUE@am__append_2 = gif2webp.1
-@BUILD_VWEBP_TRUE@am__append_3 = vwebp.1
-@BUILD_WEBPINFO_TRUE@am__append_4 = webpinfo.1
+@BUILD_IMG2WEBP_TRUE@am__append_3 = img2webp.1
+@BUILD_VWEBP_TRUE@am__append_4 = vwebp.1
+@BUILD_WEBPINFO_TRUE@am__append_5 = webpinfo.1
 subdir = man
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/m4/ax_pthread.m4 \
@@ -166,7 +167,6 @@ AR = @AR@
 AUTOCONF = @AUTOCONF@
 AUTOHEADER = @AUTOHEADER@
 AUTOMAKE = @AUTOMAKE@
-AVX2_FLAGS = @AVX2_FLAGS@
 AWK = @AWK@
 CC = @CC@
 CCDEPMODE = @CCDEPMODE@
@@ -300,7 +300,7 @@ top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 man_MANS = cwebp.1 dwebp.1 $(am__append_1) $(am__append_2) \
-	$(am__append_3) $(am__append_4)
+	$(am__append_3) $(am__append_4) $(am__append_5)
 EXTRA_DIST = $(man_MANS)
 all: all-am
 

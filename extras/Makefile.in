@@ -92,7 +92,7 @@ build_triplet = @build@
 host_triplet = @host@
 noinst_PROGRAMS = webp_quality$(EXEEXT) $(am__EXEEXT_1) \
 	$(am__EXEEXT_2)
-@WANT_DEMUX_TRUE@am__append_1 = get_disto
+@BUILD_DEMUX_TRUE@am__append_1 = get_disto
 @BUILD_VWEBP_SDL_TRUE@am__append_2 = vwebp_sdl
 subdir = extras
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
@@ -121,7 +121,7 @@ libwebpextras_la_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC \
 	$(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=link $(CCLD) \
 	$(AM_CFLAGS) $(CFLAGS) $(libwebpextras_la_LDFLAGS) $(LDFLAGS) \
 	-o $@
-@WANT_DEMUX_TRUE@am__EXEEXT_1 = get_disto$(EXEEXT)
+@BUILD_DEMUX_TRUE@am__EXEEXT_1 = get_disto$(EXEEXT)
 @BUILD_VWEBP_SDL_TRUE@am__EXEEXT_2 = vwebp_sdl$(EXEEXT)
 PROGRAMS = $(noinst_PROGRAMS)
 am_get_disto_OBJECTS = get_disto-get_disto.$(OBJEXT)
@@ -215,7 +215,6 @@ AR = @AR@
 AUTOCONF = @AUTOCONF@
 AUTOHEADER = @AUTOHEADER@
 AUTOMAKE = @AUTOMAKE@
-AVX2_FLAGS = @AVX2_FLAGS@
 AWK = @AWK@
 CC = @CC@
 CCDEPMODE = @CCDEPMODE@

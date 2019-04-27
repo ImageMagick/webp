@@ -91,12 +91,12 @@ build_triplet = @build@
 host_triplet = @host@
 bin_PROGRAMS = $(am__EXEEXT_1) $(am__EXEEXT_2) $(am__EXEEXT_3) \
 	$(am__EXEEXT_4) $(am__EXEEXT_5) $(am__EXEEXT_6)
-@WANT_DEMUX_TRUE@am__append_1 = dwebp cwebp
+@BUILD_DEMUX_TRUE@am__append_1 = dwebp cwebp
 @BUILD_ANIMDIFF_TRUE@noinst_PROGRAMS = anim_diff$(EXEEXT) \
 @BUILD_ANIMDIFF_TRUE@	anim_dump$(EXEEXT)
 @BUILD_GIF2WEBP_TRUE@am__append_2 = gif2webp
 @BUILD_IMG2WEBP_TRUE@am__append_3 = img2webp
-@WANT_MUX_TRUE@am__append_4 = webpmux
+@BUILD_MUX_TRUE@am__append_4 = webpmux
 @BUILD_VWEBP_TRUE@am__append_5 = vwebp
 @BUILD_WEBPINFO_TRUE@am__append_6 = webpinfo
 @BUILD_LIBWEBPDECODER_TRUE@am__append_7 = ../src/libwebpdecoder.la
@@ -126,23 +126,23 @@ AM_V_lt = $(am__v_lt_@AM_V@)
 am__v_lt_ = $(am__v_lt_@AM_DEFAULT_V@)
 am__v_lt_0 = --silent
 am__v_lt_1 = 
-@WANT_DEMUX_TRUE@am__EXEEXT_1 = dwebp$(EXEEXT) cwebp$(EXEEXT)
+@BUILD_DEMUX_TRUE@am__EXEEXT_1 = dwebp$(EXEEXT) cwebp$(EXEEXT)
 @BUILD_GIF2WEBP_TRUE@am__EXEEXT_2 = gif2webp$(EXEEXT)
 @BUILD_IMG2WEBP_TRUE@am__EXEEXT_3 = img2webp$(EXEEXT)
-@WANT_MUX_TRUE@am__EXEEXT_4 = webpmux$(EXEEXT)
+@BUILD_MUX_TRUE@am__EXEEXT_4 = webpmux$(EXEEXT)
 @BUILD_VWEBP_TRUE@am__EXEEXT_5 = vwebp$(EXEEXT)
 @BUILD_WEBPINFO_TRUE@am__EXEEXT_6 = webpinfo$(EXEEXT)
 am__installdirs = "$(DESTDIR)$(bindir)"
 PROGRAMS = $(bin_PROGRAMS) $(noinst_PROGRAMS)
 am_anim_diff_OBJECTS = anim_diff-anim_diff.$(OBJEXT) \
-	anim_diff-anim_util.$(OBJEXT)
+	anim_diff-anim_util.$(OBJEXT) anim_diff-gifdec.$(OBJEXT)
 anim_diff_OBJECTS = $(am_anim_diff_OBJECTS)
 am__DEPENDENCIES_1 =
 anim_diff_DEPENDENCIES = ../src/demux/libwebpdemux.la \
 	libexample_util.la ../imageio/libimageio_util.la \
 	$(am__DEPENDENCIES_1) $(am__append_7) $(am__append_10)
 am_anim_dump_OBJECTS = anim_dump-anim_dump.$(OBJEXT) \
-	anim_dump-anim_util.$(OBJEXT)
+	anim_dump-anim_util.$(OBJEXT) anim_dump-gifdec.$(OBJEXT)
 anim_dump_OBJECTS = $(am_anim_dump_OBJECTS)
 anim_dump_DEPENDENCIES = ../src/demux/libwebpdemux.la \
 	libexample_util.la ../imageio/libimageio_util.la \
@@ -264,7 +264,6 @@ AR = @AR@
 AUTOCONF = @AUTOCONF@
 AUTOHEADER = @AUTOHEADER@
 AUTOMAKE = @AUTOMAKE@
-AVX2_FLAGS = @AVX2_FLAGS@
 AWK = @AWK@
 CC = @CC@
 CCDEPMODE = @CCDEPMODE@
@@ -400,12 +399,12 @@ top_srcdir = @top_srcdir@
 noinst_LTLIBRARIES = libexample_util.la
 libexample_util_la_SOURCES = example_util.c example_util.h
 libexample_util_la_LIBADD = ../src/libwebp.la
-anim_diff_SOURCES = anim_diff.c anim_util.c anim_util.h
+anim_diff_SOURCES = anim_diff.c anim_util.c anim_util.h gifdec.c gifdec.h
 anim_diff_CPPFLAGS = $(AM_CPPFLAGS) $(GIF_INCLUDES)
 anim_diff_LDADD = ../src/demux/libwebpdemux.la libexample_util.la \
 	../imageio/libimageio_util.la $(GIF_LIBS) -lm $(am__append_7) \
 	$(am__append_10)
-anim_dump_SOURCES = anim_dump.c anim_util.c anim_util.h
+anim_dump_SOURCES = anim_dump.c anim_util.c anim_util.h gifdec.c gifdec.h
 anim_dump_CPPFLAGS = $(AM_CPPFLAGS) $(PNG_INCLUDES) $(GIF_INCLUDES)
 anim_dump_LDADD = ../src/demux/libwebpdemux.la libexample_util.la \
 	../imageio/libimageio_util.la ../imageio/libimageenc.la \
@@ -593,8 +592,10 @@ distclean-compile:
 
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/anim_diff-anim_diff.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/anim_diff-anim_util.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/anim_diff-gifdec.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/anim_dump-anim_dump.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/anim_dump-anim_util.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/anim_dump-gifdec.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/cwebp-cwebp.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dwebp-dwebp.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/example_util.Plo@am__quote@
@@ -657,6 +658,20 @@ anim_diff-anim_util.obj: anim_util.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(anim_diff_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o anim_diff-anim_util.obj `if test -f 'anim_util.c'; then $(CYGPATH_W) 'anim_util.c'; else $(CYGPATH_W) '$(srcdir)/anim_util.c'; fi`
 
+anim_diff-gifdec.o: gifdec.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(anim_diff_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT anim_diff-gifdec.o -MD -MP -MF $(DEPDIR)/anim_diff-gifdec.Tpo -c -o anim_diff-gifdec.o `test -f 'gifdec.c' || echo '$(srcdir)/'`gifdec.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/anim_diff-gifdec.Tpo $(DEPDIR)/anim_diff-gifdec.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='gifdec.c' object='anim_diff-gifdec.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(anim_diff_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o anim_diff-gifdec.o `test -f 'gifdec.c' || echo '$(srcdir)/'`gifdec.c
+
+anim_diff-gifdec.obj: gifdec.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(anim_diff_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT anim_diff-gifdec.obj -MD -MP -MF $(DEPDIR)/anim_diff-gifdec.Tpo -c -o anim_diff-gifdec.obj `if test -f 'gifdec.c'; then $(CYGPATH_W) 'gifdec.c'; else $(CYGPATH_W) '$(srcdir)/gifdec.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/anim_diff-gifdec.Tpo $(DEPDIR)/anim_diff-gifdec.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='gifdec.c' object='anim_diff-gifdec.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(anim_diff_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o anim_diff-gifdec.obj `if test -f 'gifdec.c'; then $(CYGPATH_W) 'gifdec.c'; else $(CYGPATH_W) '$(srcdir)/gifdec.c'; fi`
+
 anim_dump-anim_dump.o: anim_dump.c
 @am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(anim_dump_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT anim_dump-anim_dump.o -MD -MP -MF $(DEPDIR)/anim_dump-anim_dump.Tpo -c -o anim_dump-anim_dump.o `test -f 'anim_dump.c' || echo '$(srcdir)/'`anim_dump.c
 @am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/anim_dump-anim_dump.Tpo $(DEPDIR)/anim_dump-anim_dump.Po
@@ -684,6 +699,20 @@ anim_dump-anim_util.obj: anim_util.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='anim_util.c' object='anim_dump-anim_util.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(anim_dump_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o anim_dump-anim_util.obj `if test -f 'anim_util.c'; then $(CYGPATH_W) 'anim_util.c'; else $(CYGPATH_W) '$(srcdir)/anim_util.c'; fi`
+
+anim_dump-gifdec.o: gifdec.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(anim_dump_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT anim_dump-gifdec.o -MD -MP -MF $(DEPDIR)/anim_dump-gifdec.Tpo -c -o anim_dump-gifdec.o `test -f 'gifdec.c' || echo '$(srcdir)/'`gifdec.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/anim_dump-gifdec.Tpo $(DEPDIR)/anim_dump-gifdec.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='gifdec.c' object='anim_dump-gifdec.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(anim_dump_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o anim_dump-gifdec.o `test -f 'gifdec.c' || echo '$(srcdir)/'`gifdec.c
+
+anim_dump-gifdec.obj: gifdec.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(anim_dump_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT anim_dump-gifdec.obj -MD -MP -MF $(DEPDIR)/anim_dump-gifdec.Tpo -c -o anim_dump-gifdec.obj `if test -f 'gifdec.c'; then $(CYGPATH_W) 'gifdec.c'; else $(CYGPATH_W) '$(srcdir)/gifdec.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/anim_dump-gifdec.Tpo $(DEPDIR)/anim_dump-gifdec.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='gifdec.c' object='anim_dump-gifdec.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(anim_dump_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o anim_dump-gifdec.obj `if test -f 'gifdec.c'; then $(CYGPATH_W) 'gifdec.c'; else $(CYGPATH_W) '$(srcdir)/gifdec.c'; fi`
 
 cwebp-cwebp.o: cwebp.c
 @am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(cwebp_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT cwebp-cwebp.o -MD -MP -MF $(DEPDIR)/cwebp-cwebp.Tpo -c -o cwebp-cwebp.o `test -f 'cwebp.c' || echo '$(srcdir)/'`cwebp.c
