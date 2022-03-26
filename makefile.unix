@@ -47,7 +47,7 @@ else
 endif
 
 # To install libraries on Mac OS X:
-# 1. Install MacPorts (http://www.macports.org/install.php)
+# 1. Install MacPorts (https://www.macports.org/install.php)
 # 2. Run "sudo port install jpeg"
 # 3. Run "sudo port install libpng"
 # 4. Run "sudo port install tiff"
@@ -166,6 +166,7 @@ DSP_DEC_OBJS = \
     src/dsp/lossless_msa.o \
     src/dsp/lossless_neon.o \
     src/dsp/lossless_sse2.o \
+    src/dsp/lossless_sse41.o \
     src/dsp/rescaler.o \
     src/dsp/rescaler_mips32.o \
     src/dsp/rescaler_mips_dsp_r2.o \

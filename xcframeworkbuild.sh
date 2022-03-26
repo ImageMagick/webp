@@ -48,6 +48,7 @@ PLATFORMS[$MACOS_CATALYST]="MacOSX-Catalyst-x86_64"
 if [[ "${XCODE%%.*}" -ge 12 ]]; then
   PLATFORMS[$MACOS]+=" MacOSX-arm64"
   PLATFORMS[$MACOS_CATALYST]+=" MacOSX-Catalyst-arm64"
+  PLATFORMS[$IOS_SIMULATOR]+=" iPhoneSimulator-arm64"
 elif [[ "${XCODE%%.*}" -eq 11 ]]; then
   cat << EOF
 WARNING: Xcode 12.0 or higher is required to build targets for
@@ -78,6 +79,26 @@ if [[ -z "${SDK[$IOS]}" ]] || [[ ${SDK[$IOS]%%.*} -lt 8 ]]; then
   exit 1
 fi
 
+#######################################
+# Moves Headers/*.h to Headers/<framework>/
+#
+# Places framework headers in a subdirectory to avoid Xcode errors when using
+# multiple frameworks:
+#   error: Multiple commands produce
+#     '.../Build/Products/Debug-iphoneos/include/types.h'
+# Arguments:
+#   $1 - path to framework
+#######################################
+update_headers_path() {
+  local framework_name="$(basename ${1%.xcframework})"
+  local subdir
+  for d in $(find "$1" -path "*/Headers"); do
+    subdir="$d/$framework_name"
+    mkdir "$subdir"
+    mv "$d/"*.h "$subdir"
+  done
+}
+
 echo "Xcode Version: ${XCODE}"
 echo "iOS SDK Version: ${SDK[$IOS]}"
 echo "MacOS SDK Version: ${SDK[$MACOS]}"
@@ -104,7 +125,7 @@ if [[ ! -e ${SRCDIR}/configure ]]; then
 Error creating configure script!
 This script requires the autoconf/automake and libtool to build. MacPorts or
 Homebrew can be used to obtain these:
-http://www.macports.org/install.php
+https://www.macports.org/install.php
 https://brew.sh/
 EOF
     exit 1
@@ -140,7 +161,9 @@ for (( i = 0; i < $NUM_PLATFORMS; ++i )); do
     CFLAGS="-pipe -isysroot ${SDKROOT} -O3 -DNDEBUG"
     case "${PLATFORM}" in
       iPhone*)
-        CFLAGS+=" -miphoneos-version-min=${IOS_MIN_VERSION} -fembed-bitcode"
+        CFLAGS+=" -fembed-bitcode"
+        CFLAGS+=" -target ${ARCH}-apple-ios${IOS_MIN_VERSION}"
+        [[ "${PLATFORM}" == *Simulator* ]] && CFLAGS+="-simulator"
         ;;
       MacOSX-Catalyst*)
         CFLAGS+=" -target"
@@ -225,6 +248,10 @@ xcodebuild -create-xcframework "${FAT_DEMUXLIBLIST[@]}" \
   -output ${DEMUXTARGETDIR}
 xcodebuild -create-xcframework "${FAT_MUXLIBLIST[@]}" \
   -output ${MUXTARGETDIR}
+update_headers_path "${TARGETDIR}"
+update_headers_path "${DECTARGETDIR}"
+update_headers_path "${DEMUXTARGETDIR}"
+update_headers_path "${MUXTARGETDIR}"
 set +x
 
 echo  "SUCCESS"

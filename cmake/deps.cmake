@@ -1,3 +1,11 @@
+#  Copyright (c) 2021 Google LLC.
+#
+#  Use of this source code is governed by a BSD-style license
+#  that can be found in the LICENSE file in the root of the source
+#  tree. An additional intellectual property rights grant can be found
+#  in the file PATENTS.  All contributing project authors may
+#  be found in the AUTHORS file in the root of the source tree.
+
 # Generate the config.h to compile with specific intrinsics / libs.
 
 # Check for compiler options.
@@ -22,26 +30,25 @@ check_c_source_compiles("
   " HAVE_BUILTIN_BSWAP64)
 
 # Check for libraries.
-if(NOT WEBP_BUILD_WEBP_JS)
-  # Disable pThreads for WASM.
+if(WEBP_USE_THREAD)
   find_package(Threads)
-endif()
-if(Threads_FOUND)
-  # work around cmake bug on QNX (https://cmake.org/Bug/view.php?id=11333)
-  if(CMAKE_USE_PTHREADS_INIT AND NOT CMAKE_SYSTEM_NAME STREQUAL "QNX")
-    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -pthread")
+  if(Threads_FOUND)
+    # work around cmake bug on QNX (https://cmake.org/Bug/view.php?id=11333)
+    if(CMAKE_USE_PTHREADS_INIT AND NOT CMAKE_SYSTEM_NAME STREQUAL "QNX")
+      set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -pthread")
+    endif()
+    check_c_source_compiles("
+        #include <pthread.h>
+        int main (void) {
+          int attr = PTHREAD_PRIO_INHERIT;
+          return attr;
+        }
+      " FLAG_HAVE_PTHREAD_PRIO_INHERIT)
+    set(HAVE_PTHREAD_PRIO_INHERIT ${FLAG_HAVE_PTHREAD_PRIO_INHERIT})
+    list(APPEND WEBP_DEP_LIBRARIES ${CMAKE_THREAD_LIBS_INIT})
   endif()
-  check_c_source_compiles("
-      #include <pthread.h>
-      int main (void) {
-        int attr = PTHREAD_PRIO_INHERIT;
-        return attr;
-      }
-    " FLAG_HAVE_PTHREAD_PRIO_INHERIT)
-  set(HAVE_PTHREAD_PRIO_INHERIT ${FLAG_HAVE_PTHREAD_PRIO_INHERIT})
-  list(APPEND WEBP_DEP_LIBRARIES ${CMAKE_THREAD_LIBS_INIT})
+  set(WEBP_USE_THREAD ${Threads_FOUND})
 endif()
-set(WEBP_USE_THREAD ${Threads_FOUND})
 
 # TODO: this seems unused, check with autotools.
 set(LT_OBJDIR ".libs/")
