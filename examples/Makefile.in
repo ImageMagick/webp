@@ -294,6 +294,7 @@ EGREP = @EGREP@
 ETAGS = @ETAGS@
 EXEEXT = @EXEEXT@
 FGREP = @FGREP@
+FILECMD = @FILECMD@
 GIF_INCLUDES = @GIF_INCLUDES@
 GIF_LIBS = @GIF_LIBS@
 GL_INCLUDES = @GL_INCLUDES@
@@ -408,6 +409,7 @@ target_alias = @target_alias@
 top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
+webp_libname_prefix = @webp_libname_prefix@
 noinst_LTLIBRARIES = libexample_util.la
 libexample_util_la_SOURCES = example_util.c example_util.h
 libexample_util_la_LIBADD = ../src/libwebp.la
@@ -423,7 +425,7 @@ anim_dump_LDADD = ../src/demux/libwebpdemux.la libexample_util.la \
 	$(PNG_LIBS) $(GIF_LIBS) $(TIFF_LIBS) -lm $(am__append_8) \
 	$(am__append_11)
 cwebp_SOURCES = cwebp.c stopwatch.h
-cwebp_CPPFLAGS = $(AM_CPPFLAGS)
+cwebp_CPPFLAGS = $(AM_CPPFLAGS) -I$(top_srcdir)
 cwebp_LDADD = libexample_util.la ../imageio/libimageio_util.la \
 	../imageio/libimagedec.la ../src/libwebp.la $(JPEG_LIBS) \
 	$(PNG_LIBS) $(TIFF_LIBS)

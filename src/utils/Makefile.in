@@ -258,6 +258,7 @@ EGREP = @EGREP@
 ETAGS = @ETAGS@
 EXEEXT = @EXEEXT@
 FGREP = @FGREP@
+FILECMD = @FILECMD@
 GIF_INCLUDES = @GIF_INCLUDES@
 GIF_LIBS = @GIF_LIBS@
 GL_INCLUDES = @GL_INCLUDES@
@@ -372,11 +373,12 @@ target_alias = @target_alias@
 top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
+webp_libname_prefix = @webp_libname_prefix@
 noinst_LTLIBRARIES = libwebputils.la $(am__append_1)
 common_HEADERS = ../webp/types.h
 commondir = $(includedir)/webp
-noinst_HEADERS = ../dsp/dsp.h ../webp/decode.h ../webp/encode.h \
-	../webp/format_constants.h
+noinst_HEADERS = ../dsp/cpu.h ../dsp/dsp.h ../webp/decode.h \
+	../webp/encode.h ../webp/format_constants.h
 COMMON_SOURCES = bit_reader_utils.c bit_reader_utils.h \
 	bit_reader_inl_utils.h color_cache_utils.c color_cache_utils.h \
 	endian_inl_utils.h filters_utils.c filters_utils.h \

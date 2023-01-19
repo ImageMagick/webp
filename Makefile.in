@@ -156,11 +156,11 @@ am__define_uniq_tagged_files = \
   unique=`for i in $$list; do \
     if test -f "$$i"; then echo $$i; else echo $(srcdir)/$$i; fi; \
   done | $(am__uniquify_input)`
-DIST_SUBDIRS = src imageio man extras examples
+DIST_SUBDIRS = sharpyuv src imageio man extras examples
 am__DIST_COMMON = $(srcdir)/Makefile.in \
 	$(top_srcdir)/src/webp/config.h.in AUTHORS COPYING ChangeLog \
-	NEWS README ar-lib compile config.guess config.sub install-sh \
-	ltmain.sh missing
+	NEWS README.md ar-lib compile config.guess config.sub \
+	install-sh ltmain.sh missing
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 distdir = $(PACKAGE)-$(VERSION)
 top_distdir = $(distdir)
@@ -234,6 +234,7 @@ EGREP = @EGREP@
 ETAGS = @ETAGS@
 EXEEXT = @EXEEXT@
 FGREP = @FGREP@
+FILECMD = @FILECMD@
 GIF_INCLUDES = @GIF_INCLUDES@
 GIF_LIBS = @GIF_LIBS@
 GL_INCLUDES = @GL_INCLUDES@
@@ -348,8 +349,9 @@ target_alias = @target_alias@
 top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
+webp_libname_prefix = @webp_libname_prefix@
 ACLOCAL_AMFLAGS = -I m4
-SUBDIRS = src imageio man $(am__append_1) examples
+SUBDIRS = sharpyuv src imageio man $(am__append_1) examples
 EXTRA_DIST = COPYING autogen.sh
 all: all-recursive
 

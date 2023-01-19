@@ -187,6 +187,7 @@ EGREP = @EGREP@
 ETAGS = @ETAGS@
 EXEEXT = @EXEEXT@
 FGREP = @FGREP@
+FILECMD = @FILECMD@
 GIF_INCLUDES = @GIF_INCLUDES@
 GIF_LIBS = @GIF_LIBS@
 GL_INCLUDES = @GL_INCLUDES@
@@ -301,6 +302,7 @@ target_alias = @target_alias@
 top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
+webp_libname_prefix = @webp_libname_prefix@
 man_MANS = cwebp.1 dwebp.1 $(am__append_1) $(am__append_2) \
 	$(am__append_3) $(am__append_4) $(am__append_5)
 EXTRA_DIST = $(man_MANS)

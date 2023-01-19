@@ -1,3 +1,5 @@
+# Ignore this file during non-NDK builds.
+ifdef NDK_ROOT
 LOCAL_PATH := $(call my-dir)
 
 WEBP_CFLAGS := -Wall -DANDROID -DHAVE_MALLOC_H -DHAVE_PTHREAD -DWEBP_USE_THREAD
@@ -32,6 +34,15 @@ ifneq ($(findstring armeabi-v7a, $(TARGET_ARCH_ABI)),)
 else
   NEON := c
 endif
+
+sharpyuv_srcs := \
+    sharpyuv/sharpyuv.c \
+    sharpyuv/sharpyuv_cpu.c \
+    sharpyuv/sharpyuv_csp.c \
+    sharpyuv/sharpyuv_dsp.c \
+    sharpyuv/sharpyuv_gamma.c \
+    sharpyuv/sharpyuv_neon.$(NEON) \
+    sharpyuv/sharpyuv_sse2.c \
 
 dec_srcs := \
     src/dec/alpha_dec.c \
@@ -204,12 +215,13 @@ endif  # ENABLE_SHARED=1
 include $(CLEAR_VARS)
 
 LOCAL_SRC_FILES := \
+    $(sharpyuv_srcs) \
     $(dsp_enc_srcs) \
     $(enc_srcs) \
     $(utils_enc_srcs) \
 
 LOCAL_CFLAGS := $(WEBP_CFLAGS)
-LOCAL_EXPORT_C_INCLUDES += $(LOCAL_PATH)/src
+LOCAL_EXPORT_C_INCLUDES += $(LOCAL_PATH)/src $(LOCAL_PATH)
 
 # prefer arm over thumb mode for performance gains
 LOCAL_ARM_MODE := arm
@@ -279,3 +291,4 @@ include $(WEBP_SRC_PATH)/examples/Android.mk
 ifeq ($(USE_CPUFEATURES),yes)
   $(call import-module,android/cpufeatures)
 endif
+endif  # NDK_ROOT

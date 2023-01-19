@@ -244,6 +244,7 @@ EGREP = @EGREP@
 ETAGS = @ETAGS@
 EXEEXT = @EXEEXT@
 FGREP = @FGREP@
+FILECMD = @FILECMD@
 GIF_INCLUDES = @GIF_INCLUDES@
 GIF_LIBS = @GIF_LIBS@
 GL_INCLUDES = @GL_INCLUDES@
@@ -358,6 +359,7 @@ target_alias = @target_alias@
 top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
+webp_libname_prefix = @webp_libname_prefix@
 noinst_LTLIBRARIES = libwebpdecode.la
 libwebpdecode_la_SOURCES = alpha_dec.c alphai_dec.h buffer_dec.c \
 	common_dec.h vp8_dec.h frame_dec.c idec_dec.c io_dec.c \

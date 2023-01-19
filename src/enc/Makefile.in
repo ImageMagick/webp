@@ -104,7 +104,7 @@ CONFIG_HEADER = $(top_builddir)/src/webp/config.h
 CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
 LTLIBRARIES = $(noinst_LTLIBRARIES)
-libwebpencode_la_LIBADD =
+libwebpencode_la_DEPENDENCIES = ../../sharpyuv/libsharpyuv.la
 am_libwebpencode_la_OBJECTS = libwebpencode_la-alpha_enc.lo \
 	libwebpencode_la-analysis_enc.lo \
 	libwebpencode_la-backward_references_cost_enc.lo \
@@ -273,6 +273,7 @@ EGREP = @EGREP@
 ETAGS = @ETAGS@
 EXEEXT = @EXEEXT@
 FGREP = @FGREP@
+FILECMD = @FILECMD@
 GIF_INCLUDES = @GIF_INCLUDES@
 GIF_LIBS = @GIF_LIBS@
 GL_INCLUDES = @GL_INCLUDES@
@@ -387,6 +388,7 @@ target_alias = @target_alias@
 top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
+webp_libname_prefix = @webp_libname_prefix@
 noinst_LTLIBRARIES = libwebpencode.la
 libwebpencode_la_SOURCES = alpha_enc.c analysis_enc.c \
 	backward_references_cost_enc.c backward_references_enc.c \
@@ -399,6 +401,7 @@ libwebpencode_la_SOURCES = alpha_enc.c analysis_enc.c \
 	webp_enc.c
 libwebpencodeinclude_HEADERS = ../webp/encode.h ../webp/types.h
 noinst_HEADERS = ../webp/format_constants.h
+libwebpencode_la_LIBADD = ../../sharpyuv/libsharpyuv.la
 libwebpencode_la_LDFLAGS = -lm
 libwebpencode_la_CPPFLAGS = $(AM_CPPFLAGS)
 libwebpencodeincludedir = $(includedir)/webp

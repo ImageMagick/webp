@@ -239,6 +239,7 @@ EGREP = @EGREP@
 ETAGS = @ETAGS@
 EXEEXT = @EXEEXT@
 FGREP = @FGREP@
+FILECMD = @FILECMD@
 GIF_INCLUDES = @GIF_INCLUDES@
 GIF_LIBS = @GIF_LIBS@
 GL_INCLUDES = @GL_INCLUDES@
@@ -353,13 +354,14 @@ target_alias = @target_alias@
 top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
+webp_libname_prefix = @webp_libname_prefix@
 lib_LTLIBRARIES = libwebpdemux.la
 libwebpdemux_la_SOURCES = anim_decode.c demux.c
 libwebpdemuxinclude_HEADERS = ../webp/decode.h ../webp/demux.h \
 	../webp/mux_types.h ../webp/types.h
 noinst_HEADERS = ../webp/format_constants.h
 libwebpdemux_la_LIBADD = ../libwebp.la
-libwebpdemux_la_LDFLAGS = -no-undefined -version-info 2:9:0
+libwebpdemux_la_LDFLAGS = -no-undefined -version-info 2:12:0
 libwebpdemuxincludedir = $(includedir)/webp
 pkgconfig_DATA = libwebpdemux.pc
 all: all-am

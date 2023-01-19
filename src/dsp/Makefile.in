@@ -187,8 +187,8 @@ libwebpdsp_sse41_la_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC \
 @BUILD_LIBWEBPDECODER_TRUE@	libwebpdspdecode_msa.la \
 @BUILD_LIBWEBPDECODER_TRUE@	libwebpdspdecode_mips32.la \
 @BUILD_LIBWEBPDECODER_TRUE@	libwebpdspdecode_mips_dsp_r2.la
-am__libwebpdspdecode_la_SOURCES_DIST = alpha_processing.c cpu.c dec.c \
-	dec_clip_tables.c dsp.h filters.c lossless.c lossless.h \
+am__libwebpdspdecode_la_SOURCES_DIST = alpha_processing.c cpu.c cpu.h \
+	dec.c dec_clip_tables.c dsp.h filters.c lossless.c lossless.h \
 	lossless_common.h rescaler.c upsampling.c yuv.c yuv.h
 am__objects_3 = libwebpdspdecode_la-alpha_processing.lo \
 	libwebpdspdecode_la-cpu.lo libwebpdspdecode_la-dec.lo \
@@ -497,6 +497,7 @@ EGREP = @EGREP@
 ETAGS = @ETAGS@
 EXEEXT = @EXEEXT@
 FGREP = @FGREP@
+FILECMD = @FILECMD@
 GIF_INCLUDES = @GIF_INCLUDES@
 GIF_LIBS = @GIF_LIBS@
 GL_INCLUDES = @GL_INCLUDES@
@@ -611,6 +612,7 @@ target_alias = @target_alias@
 top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
+webp_libname_prefix = @webp_libname_prefix@
 noinst_LTLIBRARIES = libwebpdsp.la libwebpdsp_sse2.la \
 	libwebpdspdecode_sse2.la libwebpdsp_sse41.la \
 	libwebpdspdecode_sse41.la libwebpdsp_neon.la \
@@ -620,9 +622,9 @@ noinst_LTLIBRARIES = libwebpdsp.la libwebpdsp_sse2.la \
 	libwebpdspdecode_mips_dsp_r2.la $(am__append_1)
 common_HEADERS = ../webp/types.h
 commondir = $(includedir)/webp
-COMMON_SOURCES = alpha_processing.c cpu.c dec.c dec_clip_tables.c \
-	dsp.h filters.c lossless.c lossless.h lossless_common.h \
-	rescaler.c upsampling.c yuv.c yuv.h
+COMMON_SOURCES = alpha_processing.c cpu.c cpu.h dec.c \
+	dec_clip_tables.c dsp.h filters.c lossless.c lossless.h \
+	lossless_common.h rescaler.c upsampling.c yuv.c yuv.h
 ENC_SOURCES = cost.c enc.c lossless_enc.c quant.h ssim.c
 libwebpdspdecode_sse41_la_SOURCES = alpha_processing_sse41.c \
 	dec_sse41.c lossless_sse41.c upsampling_sse41.c yuv_sse41.c

@@ -1,4 +1,4 @@
-AC_INIT([libwebp], [1.2.2],
+AC_INIT([libwebp], [1.3.0],
         [https://bugs.chromium.org/p/webp],,
         [https://developers.google.com/speed/webp])
 AC_CANONICAL_HOST
@@ -9,7 +9,8 @@ dnl === automake >= 1.12 requires this for 'unusual archivers' support.
 dnl === it must occur before LT_INIT (AC_PROG_LIBTOOL).
 m4_ifdef([AM_PROG_AR], [AM_PROG_AR])
 
-AC_PROG_LIBTOOL
+dnl === AC_PROG_LIBTOOL is deprecated.
+m4_ifdef([LT_INIT], [LT_INIT], [AC_PROG_LIBTOOL])
 AC_PROG_SED
 AM_PROG_CC_C_O
 
@@ -27,7 +28,8 @@ AC_ARG_ENABLE([everything],
               AS_HELP_STRING([--enable-everything],
                              [Enable all optional targets. These can still be
                               disabled with --disable-target]),
-              [SET_IF_UNSET([enable_libwebpdecoder], [$enableval])
+              [SET_IF_UNSET([enable_libsharpyuv], [$enableval])
+               SET_IF_UNSET([enable_libwebpdecoder], [$enableval])
                SET_IF_UNSET([enable_libwebpdemux], [$enableval])
                SET_IF_UNSET([enable_libwebpextras], [$enableval])
                SET_IF_UNSET([enable_libwebpmux], [$enableval])])
@@ -747,10 +749,13 @@ fi
 
 dnl =========================
 
+dnl Add an empty webp_libname_prefix variable for use in *.pc.in.
+AC_SUBST([webp_libname_prefix])
 AC_CONFIG_MACRO_DIR([m4])
 AC_CONFIG_HEADERS([src/webp/config.h])
 AC_CONFIG_FILES([Makefile src/Makefile man/Makefile \
                  examples/Makefile extras/Makefile imageio/Makefile \
+                 sharpyuv/Makefile sharpyuv/libsharpyuv.pc \
                  src/dec/Makefile src/enc/Makefile src/dsp/Makefile \
                  src/demux/Makefile src/mux/Makefile \
                  src/utils/Makefile \
