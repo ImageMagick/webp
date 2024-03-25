@@ -1,0 +1,28 @@
+[DLL]
+
+[LICENSE]
+COPYING
+
+[DEFINES]
+_WEBPLIB_
+
+[INCLUDES]
+webp
+
+[DIRECTORIES]
+src
+src\dec
+src\demux
+src\dsp
+src\enc
+src\mux
+src\utils
+src\webp
+sharpyuv
+
+[CONFIG_DEFINE]
+/*
+  Define to use the WebP library
+*/
+#define MAGICKCORE_WEBP_DELEGATE
+#define MAGICKCORE_WEBPMUX_DELEGATE
