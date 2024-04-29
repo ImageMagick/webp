@@ -296,7 +296,7 @@ static float ToLinearHlg(float gamma) {
   } else if (gamma <= 0.5f) {
     return Powf((gamma * gamma) * (1.f / 3.f), 1.2f);
   }
-  return Powf((expf((gamma - 0.55991073f) / 0.17883277f) + 0.28466892f) / 12.0f,
+  return Powf((exp((gamma - 0.55991073f) / 0.17883277f) + 0.28466892f) / 12.0f,
               1.2f);
 }
 
