@@ -36,6 +36,17 @@ typedef long long int int64_t;
 #define WEBP_INLINE __forceinline
 #endif  /* _MSC_VER */
 
+#if defined(_MT) && defined(_DLL) && !defined(_WEBPDLL_) && !defined(_LIB)
+#   define _WEBPDLL_
+#endif
+#if defined(_WEBPDLL_)
+#   if !defined(_WEBPLIB_)
+#     define WEBP_EXTERN extern __declspec(dllimport)
+#   else
+#     define WEBP_EXTERN extern __declspec(dllexport)
+#   endif
+#endif
+
 #ifndef WEBP_NODISCARD
 #if defined(WEBP_ENABLE_NODISCARD) && WEBP_ENABLE_NODISCARD
 #if (defined(__cplusplus) && __cplusplus >= 201700L) || \
