@@ -1,4 +1,4 @@
-[DLL]
+[DYNAMIC_LIBRARY]
 
 [LICENSE]
 COPYING
@@ -6,21 +6,17 @@ COPYING
 [DEFINES]
 _WEBPLIB_
 
-[INCLUDES]
-.
+[INCLUDE_ARTIFACTS]
+src\webp -> webp
 
-[DIRECTORIES]
-src
-src\dec
-src\demux
-src\dsp
-src\enc
-src\mux
-src\utils
-src\webp
-sharpyuv
+[EXCLUDES]
+examples\
+extras\
+imageio\
+swig\
+tests\
 
-[CONFIG_DEFINE]
+[MAGICK_BASECONFIG_DEFINE]
 /*
   Define to use the WebP library
 */
